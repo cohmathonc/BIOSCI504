@@ -1,0 +1,15 @@
+Package: BIOSCI504
+Title: Course Tools for BIOSCI 504
+Version: 0.0.0.9000
+Authors@R:
+    person("Denis", "O'Meally", , "denis@omeally.com", role = c("aut", "cre"))
+Description: Provides datasets, templates, and setup tools used in BIOSCI 504.
+    Helps students create course projects and check their software setup.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends:
+    R (>= 4.2.0)
+Suggests:
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+RoxygenNote: 7.3.3
