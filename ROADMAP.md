@@ -42,13 +42,14 @@
 - [x] Make it available through `data(course_data_dictionary)`.
 - [x] Implement `course_resources()`.
 - [x] Include current datasets and descriptive day/topic metadata.
-- [ ] Add templates and aliases as they become available.
+- [x] Add templates as they become available.
+- [ ] Add aliases as they become available.
 - [x] Test that every listed resource exists and every advertised alias resolves.
 
 ## 4. Exercise templates
 
-- [ ] Add a Day 2 Quarto template under `inst/templates/`.
-- [ ] Include sections for:
+- [x] Add a Day 2 Quarto template under `inst/templates/`.
+- [x] Include sections for:
   - biological question
   - prediction
   - analytical specification or consequential AI prompt
@@ -58,13 +59,14 @@
   - result
   - interpretation
   - why I trust this
-- [ ] Keep the scaffold suggestive, not enforced.
-- [ ] Implement `copy_template(template, dest = NULL, overwrite = FALSE)`.
-- [ ] Use descriptive template names as the canonical names.
+- [x] Keep the scaffold suggestive, not enforced.
+- [x] Implement `copy_template(template, dest = NULL, overwrite = FALSE)`.
+- [x] Use descriptive template names as the canonical names.
 - [ ] Add supported day aliases.
-- [ ] Default copies to the course project's `exercises/` directory.
-- [ ] Refuse to overwrite files unless `overwrite = TRUE`.
-- [ ] Test canonical names, aliases, destinations, and overwrite behavior.
+- [x] Default copies to the course project's `exercises/` directory.
+- [x] Refuse to overwrite files unless `overwrite = TRUE`.
+- [x] Test canonical names, destinations, and overwrite behavior.
+- [ ] Test aliases when they are added.
 
 ## 5. Setup checks and dependencies
 
@@ -86,7 +88,7 @@
 
 - [ ] Add one short getting-started vignette.
 - [ ] Cover installation, setup checking, project creation, template copying, and bundled data.
-- [ ] Add package checks on Windows, macOS, and Linux.
+- [ ] Add package checks on all three target platforms: Windows, macOS, and Linux.
 - [ ] Add a bundled-data loading check.
 - [ ] Add a basic plotting smoke test.
 - [ ] Add a minimal Quarto render.

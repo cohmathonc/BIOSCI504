@@ -7,6 +7,7 @@ Description: Provides datasets and setup tools used in BIOSCI 504. Helps
     students create course projects and work with course data.
 License: MIT + file LICENSE
 Encoding: UTF-8
+LazyData: true
 Depends:
     R (>= 4.2.0)
 Suggests:

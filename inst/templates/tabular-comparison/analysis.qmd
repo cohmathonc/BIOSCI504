@@ -1,0 +1,130 @@
+---
+title: "Tabular comparison"
+subtitle: "From a biological question to a trustworthy interpretation"
+brand: _brand.yml
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    toc: true
+    code-fold: false
+execute:
+  echo: true
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+library(BIOSCI504)
+data(mouse_trial)
+```
+
+## Biological question
+
+::: {.analysis-prompt}
+State the biological question in one sentence.
+:::
+
+<!--
+Name the population, treatment or exposure, and outcome. Keep the question
+answerable with the available data.
+-->
+
+## Prediction
+
+::: {.analysis-prompt}
+Describe the pattern you expect to observe and why.
+:::
+
+<!--
+Make the direction of the expected difference explicit. Connect the prediction
+to biological reasoning rather than to a preferred statistical result.
+-->
+
+## Analysis specification
+
+::: {.analysis-prompt}
+Specify the comparison, outcome, groups, and important data-handling choices.
+:::
+
+<!--
+Write the analysis before carrying it out. Include the unit of observation,
+exclusions, missing-value handling, summary or model, and planned figure. This
+specification may also support a consequential AI prompt, but it must stand on
+its own as a clear analytical plan.
+-->
+
+## Data inspection
+
+::: {.analysis-prompt}
+Inspect the data before transforming or plotting it. Record anything that could
+change the analysis.
+:::
+
+<!--
+Check the dimensions, variable names and types, identifiers, group sizes,
+missing values, ranges, and units. Do not silently repair unexpected values.
+-->
+
+```{r}
+# Start by inspecting the structure, dimensions, names, and missingness.
+```
+
+## Analysis code
+
+::: {.analysis-prompt}
+Carry out the specified comparison with readable, reproducible code.
+:::
+
+<!--
+Keep transformations close to the analysis that uses them. Prefer explicit
+names and small steps that another student can inspect.
+-->
+
+## Verification checkpoints
+
+::: {.analysis-prompt}
+Show the checks that would reveal a wrong unit, duplicated observation,
+unexpected missingness, or implausible result.
+:::
+
+<!--
+Use evidence rather than reassurance. Useful checkpoints include dimensions,
+unique identifiers, group counts, missing-value counts, ranges, and intermediate
+summaries.
+-->
+
+## Result
+
+::: {.analysis-prompt}
+Report the main numerical and visual result without interpreting it yet.
+:::
+
+<!--
+Include the size and direction of the observed difference and the uncertainty
+needed for the planned analysis. Ensure every figure can be read independently.
+-->
+
+## Interpretation
+
+::: {.analysis-prompt}
+Explain what the result means for the biological question.
+:::
+
+<!--
+Separate what the data show from possible biological explanations. State the
+limits of the design and avoid causal language the study cannot support.
+-->
+
+## Why I trust this
+
+::: {.analysis-prompt}
+Summarize the evidence that makes the result credible and any remaining doubt.
+:::
+
+<!--
+Point to specific checks, not effort or confidence. Note assumptions that remain
+untested and describe what additional evidence would change the conclusion.
+-->

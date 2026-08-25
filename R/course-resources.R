@@ -10,17 +10,19 @@ course_resources <- function() {
       "mouse_trial",
       "mouse_trial_duplicates",
       "mouse_trial_missingness",
-      "mouse_trial_unit_error"
+      "mouse_trial_unit_error",
+      "tabular-comparison"
     ),
-    type = rep("dataset", 4L),
-    alias = rep(NA_character_, 4L),
-    day = rep(2L, 4L),
-    topic = rep("Tabular comparison", 4L),
+    type = c(rep("dataset", 4L), "template"),
+    alias = rep(NA_character_, 5L),
+    day = rep(2L, 5L),
+    topic = rep("Tabular comparison", 5L),
     description = c(
       "Core mouse treatment dataset.",
       "Mouse trial with repeated records.",
       "Mouse trial with group-dependent missingness.",
-      "Mouse trial with a final-weight unit error."
+      "Mouse trial with a final-weight unit error.",
+      "Quarto scaffold for a tabular comparison."
     ),
     stringsAsFactors = FALSE
   )
