@@ -1,6 +1,14 @@
 # BIOSCI504
 
-`BIOSCI504` provides setup tools for BIOSCI 504.
+`BIOSCI504` provides datasets and setup tools for BIOSCI 504.
+
+## Use the course data
+
+```r
+data(mouse_trial, package = "BIOSCI504")
+```
+
+`mouse_trial` contains baseline and final weights for a simulated treatment study.
 
 ## Create a course project
 

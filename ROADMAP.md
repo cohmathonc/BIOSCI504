@@ -12,8 +12,8 @@
 
 ## 2. Day 2 data
 
-- [ ] Write a seeded `data-raw/` script for `mouse_trial`.
-- [ ] Include the required columns:
+- [x] Write a seeded `data-raw/` script for `mouse_trial`.
+- [x] Include the required columns:
   - `mouse_id`
   - `treatment`
   - `sex`
@@ -21,8 +21,8 @@
   - `final_weight_g`
   - `cage`
   - `batch`
-- [ ] Build in mild cage and batch effects, slight imbalance, 1–2 missing values, and one plausible biological outlier.
-- [ ] Record the known data-generating assumptions for maintainers.
+- [x] Build in mild cage and batch effects, slight imbalance, 1–2 missing values, and one plausible biological outlier.
+- [x] Record the known data-generating assumptions for maintainers.
 - [ ] Add `mouse_trial_missingness`.
 - [ ] Add `mouse_trial_duplicates`.
 - [ ] Add `mouse_trial_unit_error`.

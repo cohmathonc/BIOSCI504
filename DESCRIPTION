@@ -3,8 +3,8 @@ Title: Course Tools for BIOSCI 504
 Version: 0.0.0.9000
 Authors@R:
     person("Denis", "O'Meally", , "denis@omeally.com", role = c("aut", "cre"))
-Description: Provides setup tools used in BIOSCI 504. Helps students create
-    course projects with the files and directories needed for exercises.
+Description: Provides datasets and setup tools used in BIOSCI 504. Helps
+    students create course projects and work with course data.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends:
