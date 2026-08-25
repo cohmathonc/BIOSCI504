@@ -10,6 +10,13 @@ data(mouse_trial, package = "BIOSCI504")
 
 `mouse_trial` contains baseline and final weights for a simulated treatment study.
 
+## Find available resources
+
+```r
+BIOSCI504::course_resources()
+data(course_data_dictionary, package = "BIOSCI504")
+```
+
 ## Create a course project
 
 ```r

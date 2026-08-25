@@ -31,7 +31,7 @@
 
 ## 3. Data dictionary and resource index
 
-- [ ] Generate `course_data_dictionary` with:
+- [x] Generate `course_data_dictionary` with:
   - `dataset`
   - `variable`
   - `type`
@@ -39,10 +39,11 @@
   - `description`
   - `allowed_values`
   - `variant_notes`
-- [ ] Make it available through `data(course_data_dictionary)`.
-- [ ] Implement `course_resources()`.
-- [ ] Include datasets, templates, aliases, and descriptive day/topic metadata.
-- [ ] Test that every listed resource exists and every alias resolves.
+- [x] Make it available through `data(course_data_dictionary)`.
+- [x] Implement `course_resources()`.
+- [x] Include current datasets and descriptive day/topic metadata.
+- [ ] Add templates and aliases as they become available.
+- [x] Test that every listed resource exists and every advertised alias resolves.
 
 ## 4. Exercise templates
 

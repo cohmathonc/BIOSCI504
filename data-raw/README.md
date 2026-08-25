@@ -7,6 +7,7 @@ Rscript data-raw/mouse-trial.R
 Rscript data-raw/mouse-trial-missingness.R
 Rscript data-raw/mouse-trial-duplicates.R
 Rscript data-raw/mouse-trial-unit-error.R
+Rscript data-raw/course-data-dictionary.R
 ```
 
 The script uses seed 504 and generates 48 mice across two treatments, two sexes, six cages, and three batches.
