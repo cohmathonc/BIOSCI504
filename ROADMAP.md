@@ -23,11 +23,11 @@
   - `batch`
 - [x] Build in mild cage and batch effects, slight imbalance, 1–2 missing values, and one plausible biological outlier.
 - [x] Record the known data-generating assumptions for maintainers.
-- [ ] Add `mouse_trial_missingness`.
-- [ ] Add `mouse_trial_duplicates`.
-- [ ] Add `mouse_trial_unit_error`.
-- [ ] Add standard help pages for each dataset.
-- [ ] Test schemas, identifiers, fixed dimensions, and intended challenge conditions.
+- [x] Add `mouse_trial_missingness`.
+- [x] Add `mouse_trial_duplicates`.
+- [x] Add `mouse_trial_unit_error`.
+- [x] Add standard help pages for each dataset.
+- [x] Test schemas, identifiers, fixed dimensions, and intended challenge conditions.
 
 ## 3. Data dictionary and resource index
 
