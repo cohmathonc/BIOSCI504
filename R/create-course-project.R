@@ -4,7 +4,7 @@
 #'
 #' @param path Where to create the project.
 #'
-#' @return `path`, invisibly.
+#' @return The expanded project path, invisibly.
 #' @export
 create_course_project <- function(path) {
   if (!is.character(path) || length(path) != 1L || is.na(path) || !nzchar(path)) {

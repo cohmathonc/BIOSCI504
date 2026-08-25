@@ -10,7 +10,7 @@ create_course_project(path)
 \item{path}{Where to create the project.}
 }
 \value{
-`path`, invisibly.
+The expanded project path, invisibly.
 }
 \description{
 Creates an RStudio and Quarto project for BIOSCI 504 exercises.

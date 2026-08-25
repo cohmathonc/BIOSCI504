@@ -1,6 +1,6 @@
 # BIOSCI504
 
-`BIOSCI504` provides datasets, templates, and setup tools for BIOSCI 504.
+`BIOSCI504` provides setup tools for BIOSCI 504.
 
 ## Create a course project
 
