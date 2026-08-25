@@ -25,6 +25,6 @@ The data-generating model includes:
 
 ## Challenge variants
 
-- `mouse_trial_missingness` adds missing final weights for `M001`, `M002`, `M003`, `M004`, and `M008`. It retains the missing final weight for `M031`.
-- `mouse_trial_duplicates` repeats `M007`, `M019`, and `M042`, then shuffles rows with seed 505.
-- `mouse_trial_unit_error` multiplies the final weight for `M020` by 1,000.
+- `mouse_trial_missingness` adds group-dependent missing final weights.
+- `mouse_trial_duplicates` adds three repeated records and shuffles the rows.
+- `mouse_trial_unit_error` records one final weight in milligrams instead of grams.
