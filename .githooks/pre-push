@@ -15,4 +15,6 @@ else
   exit 1
 fi
 
+tools/check-development.sh
+
 exec Rscript tools/pre-push.R

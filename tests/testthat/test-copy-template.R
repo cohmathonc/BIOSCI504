@@ -109,11 +109,17 @@ test_that("copy_template protects existing work unless overwrite is requested", 
     "Destination already exists",
     fixed = TRUE
   )
-  expect_identical(readLines(file.path(destination, "analysis.qmd")), "student work")
+  expect_identical(
+    readLines(file.path(destination, "analysis.qmd")),
+    "student work"
+  )
 
   copy_template("tabular-comparison", dest = destination, overwrite = TRUE)
 
-  expect_true(any(grepl("Biological question", readLines(file.path(destination, "analysis.qmd")))))
+  expect_true(any(grepl(
+    "Biological question",
+    readLines(file.path(destination, "analysis.qmd"))
+  )))
   expect_identical(readLines(file.path(destination, "notes.txt")), "keep me")
 })
 

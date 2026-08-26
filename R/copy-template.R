@@ -13,8 +13,10 @@
 #' @export
 copy_template <- function(template, dest = NULL, overwrite = FALSE) {
   if (
-    !is.character(template) || length(template) != 1L ||
-      is.na(template) || !nzchar(template)
+    !is.character(template) ||
+      length(template) != 1L ||
+      is.na(template) ||
+      !nzchar(template)
   ) {
     stop("`template` must be a single, non-empty name.", call. = FALSE)
   }
@@ -55,14 +57,18 @@ copy_template <- function(template, dest = NULL, overwrite = FALSE) {
     }
     dest <- file.path(project_root, "exercises", canonical_template)
   }
-  if (!is.character(dest) || length(dest) != 1L || is.na(dest) || !nzchar(dest)) {
+  if (
+    !is.character(dest) || length(dest) != 1L || is.na(dest) || !nzchar(dest)
+  ) {
     stop("`dest` must be a single, non-empty path.", call. = FALSE)
   }
   dest <- path.expand(dest)
   if (dir.exists(dest) && !isTRUE(overwrite)) {
     stop(
       paste0(
-        "Destination already exists: `", dest, "`. ",
+        "Destination already exists: `",
+        dest,
+        "`. ",
         "Set `overwrite = TRUE` to replace template files."
       ),
       call. = FALSE

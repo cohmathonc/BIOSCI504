@@ -90,7 +90,10 @@ run_pre_push_checks <- function() {
     )
   )
   if (!identical(install_status, 0L)) {
-    stop("BIOSCI504 could not be installed for the render check.", call. = FALSE)
+    stop(
+      "BIOSCI504 could not be installed for the render check.",
+      call. = FALSE
+    )
   }
 
   .libPaths(c(library_path, .libPaths()))

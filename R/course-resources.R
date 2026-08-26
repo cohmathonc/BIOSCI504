@@ -28,6 +28,7 @@ course_resources <- function() {
 }
 
 course_template_registry <- function() {
+  # fmt: skip
   tibble::tribble(
     ~resource, ~type, ~alias, ~day, ~topic, ~description,
     "tabular-comparison", "template", "day-2", 2L,

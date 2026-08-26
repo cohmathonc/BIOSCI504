@@ -8,7 +8,7 @@
 - [x] Add package metadata, documentation, tests, and an MIT license.
 - [x] Add `create_course_project(path)`.
 - [x] Test that project creation leaves the working directory unchanged.
-- [ ] Add package-development checks for formatting and documentation.
+- [x] Add package-development checks for formatting and documentation.
 
 ## 2. Day 2 data
 
@@ -43,12 +43,14 @@
 - [x] Implement `course_resources()`.
 - [x] Include current datasets and descriptive day/topic metadata.
 - [x] Add templates as they become available.
-- [ ] Add aliases as they become available.
+- [x] Add aliases as they become available.
 - [x] Test that every listed resource exists and every advertised alias resolves.
 
 ## 4. Exercise templates
 
 - [x] Add a Day 2 Quarto template under `inst/templates/`.
+- [x] Add a Day 3 template for explicit analytical rules.
+- [x] Add a Day 4 template for expression filtering and transformation.
 - [x] Include sections for:
   - biological question
   - prediction
@@ -62,11 +64,11 @@
 - [x] Keep the scaffold suggestive, not enforced.
 - [x] Implement `copy_template(template, dest = NULL, overwrite = FALSE)`.
 - [x] Use descriptive template names as the canonical names.
-- [ ] Add supported day aliases.
+- [x] Add supported day aliases.
 - [x] Default copies to the course project's `exercises/` directory.
 - [x] Refuse to overwrite files unless `overwrite = TRUE`.
 - [x] Test canonical names, destinations, and overwrite behavior.
-- [ ] Test aliases when they are added.
+- [x] Test aliases when they are added.
 
 ## 5. Setup checks and dependencies
 
@@ -92,7 +94,10 @@
 - [x] Add a bundled-data loading check.
 - [x] Add a basic plotting smoke test.
 - [x] Add a minimal Quarto render.
-- [ ] Add a lightweight Seurat smoke test.
+
+### Parked
+
+- Seurat smoke testing belongs to the instructor who owns that material.
 
 ## 7. Release
 

@@ -24,7 +24,9 @@ Enable the tracked pre-push hook once in each clone:
 git config core.hooksPath .githooks
 ```
 
-The hook validates the GitHub Actions workflows, runs `R CMD check`, builds the
-pkgdown site, and renders the Quarto exercise template before each push. Install
-`actionlint` or Go for workflow validation. GitHub Actions remains responsible
-for the full operating-system and R-version matrix.
+The hook validates GitHub Actions workflows, checks R formatting with Air,
+regenerates package documentation to detect drift, runs `R CMD check`, builds
+the pkgdown site, and renders every Quarto exercise template. Install
+`actionlint` or Go, Air or `uvx`, and the `roxygen2`, `pkgdown`, and `rcmdcheck`
+R packages. GitHub Actions remains responsible for the full operating-system
+and R-version matrix.

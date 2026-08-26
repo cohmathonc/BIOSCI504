@@ -7,7 +7,9 @@
 #' @return The expanded project path, invisibly.
 #' @export
 create_course_project <- function(path) {
-  if (!is.character(path) || length(path) != 1L || is.na(path) || !nzchar(path)) {
+  if (
+    !is.character(path) || length(path) != 1L || is.na(path) || !nzchar(path)
+  ) {
     stop("`path` must be a single, non-empty path.", call. = FALSE)
   }
 
