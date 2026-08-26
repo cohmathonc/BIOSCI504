@@ -50,9 +50,6 @@ jobs:
     runs-on: ubuntu-latest
     name: ubuntu-latest (R release, Quarto render)
 
-    env:
-      COURSE_PROJECT: ${{ runner.temp }}/BIOSCI504-course-project
-
     steps:
       - uses: actions/checkout@v6
 
@@ -74,7 +71,10 @@ jobs:
       - name: Copy exercise template
         shell: Rscript {0}
         run: |
-          project <- Sys.getenv("COURSE_PROJECT")
+          project <- file.path(
+            Sys.getenv("RUNNER_TEMP"),
+            "BIOSCI504-course-project"
+          )
           BIOSCI504::create_course_project(project)
           BIOSCI504::copy_template(
             "tabular-comparison",
@@ -82,5 +82,5 @@ jobs:
           )
 
       - name: Render exercise template
-        working-directory: ${{ env.COURSE_PROJECT }}
+        working-directory: ${{ runner.temp }}/BIOSCI504-course-project
         run: quarto render exercises/tabular-comparison/analysis.qmd
