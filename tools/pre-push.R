@@ -1,5 +1,5 @@
 run_pre_push_checks <- function() {
-  required_packages <- "rcmdcheck"
+  required_packages <- c("pkgdown", "rcmdcheck")
   installed <- vapply(
     required_packages,
     requireNamespace,
@@ -42,6 +42,40 @@ run_pre_push_checks <- function() {
     check_dir = file.path(work, "check"),
     error_on = "note"
   )
+
+  message("Building the pkgdown site...")
+  site_path <- file.path(work, "site")
+  source(file.path(repo, "tools", "build-pkgdown.R"))
+  build_biosci504_site(
+    pkg = repo,
+    dest_dir = site_path,
+    install = TRUE,
+    new_process = TRUE
+  )
+  site_files <- file.path(
+    site_path,
+    c(
+      "index.html",
+      "reference/index.html",
+      "articles/getting-started.html",
+      "reference/course_data_dictionary.html",
+      "reference/mouse_trial.html",
+      "reference/mouse_trial_duplicates.html",
+      "reference/mouse_trial_missingness.html",
+      "reference/mouse_trial_unit_error.html",
+      ".nojekyll"
+    )
+  )
+  if (!all(file.exists(site_files))) {
+    stop("The pkgdown site is missing required pages.", call. = FALSE)
+  }
+  internal_pages <- file.path(
+    site_path,
+    c("CONTRIBUTING.html", "ROADMAP.html")
+  )
+  if (any(file.exists(internal_pages))) {
+    stop("The pkgdown site includes internal project pages.", call. = FALSE)
+  }
 
   message("Installing BIOSCI504 into a temporary library...")
   library_path <- file.path(work, "library")

@@ -1,0 +1,26 @@
+url: https://cohmathonc.github.io/BIOSCI504/
+
+template:
+  bootstrap: 5
+  bootswatch: cosmo
+  bslib:
+    primary: "#0757A8"
+
+home:
+  sidebar:
+    structure: [license, authors]
+
+navbar:
+  bg: primary
+  structure:
+    left: [intro, reference]
+    right: [search, github]
+  components:
+    intro:
+      text: Get started
+      href: articles/getting-started.html
+
+search:
+  exclude: [ROADMAP.html, CONTRIBUTING.html]
+
+llm-docs: false

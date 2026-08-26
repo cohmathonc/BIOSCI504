@@ -7,10 +7,9 @@ cd "$repo_root"
 
 echo "Checking GitHub Actions workflows..."
 if command -v actionlint >/dev/null 2>&1; then
-  actionlint .github/workflows/R-CMD-check.yaml
+  actionlint
 elif command -v go >/dev/null 2>&1; then
-  go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.12 \
-    .github/workflows/R-CMD-check.yaml
+  go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
 else
   echo "Install actionlint or Go before pushing." >&2
   exit 1

@@ -2,6 +2,8 @@
 
 `BIOSCI504` provides datasets and setup tools for BIOSCI 504.
 
+Read the documentation at <https://cohmathonc.github.io/BIOSCI504/>.
+
 ## Install
 
 ```r

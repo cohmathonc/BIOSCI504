@@ -5,6 +5,8 @@ Authors@R:
     person("Denis", "O'Meally", , "denis@omeally.com", role = c("aut", "cre"))
 Description: Provides datasets and setup tools used in BIOSCI 504. Helps
     students create course projects and work with course data.
+URL: https://cohmathonc.github.io/BIOSCI504/,
+    https://github.com/cohmathonc/BIOSCI504
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
