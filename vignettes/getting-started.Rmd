@@ -1,0 +1,88 @@
+---
+title: "Getting started with BIOSCI504"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started with BIOSCI504}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+`BIOSCI504` installs the R packages used in Days 1--4 and provides the course
+data, projects, and exercise templates.
+
+## Install
+
+Install the package once from GitHub:
+
+```{r install, eval = FALSE}
+install.packages("pak")
+pak::pak("cohmathonc/BIOSCI504")
+```
+
+## Check your setup
+
+Run the setup check before the first class:
+
+```{r check-setup, eval = FALSE}
+BIOSCI504::check_setup()
+```
+
+The check reports every problem it finds and suggests a fix. RStudio may be
+reported as a warning when the check is run from a terminal.
+
+## Create a course project
+
+Choose a folder that is easy to find:
+
+```{r create-project, eval = FALSE}
+BIOSCI504::create_course_project("~/BIOSCI504")
+```
+
+Open `BIOSCI504.Rproj` before continuing. This keeps course files together and
+makes relative paths predictable.
+
+## Copy an exercise
+
+From the course project, copy the Day 2 template:
+
+```{r copy-template, eval = FALSE}
+BIOSCI504::copy_template("tabular-comparison")
+```
+
+The template is copied to `exercises/tabular-comparison`. Existing work is not
+replaced unless you explicitly request it.
+
+## Work with course data
+
+Load the package and tidyverse, then inspect the bundled mouse trial:
+
+```{r load-data, message = FALSE}
+library(BIOSCI504)
+library(tidyverse)
+
+data(mouse_trial)
+glimpse(mouse_trial)
+```
+
+A quick plot is often the best next check:
+
+```{r plot-data, fig.width = 6, fig.height = 4}
+ggplot(
+  mouse_trial,
+  aes(
+    x = baseline_weight_g,
+    y = final_weight_g,
+    colour = treatment
+  )
+) +
+  geom_point() +
+  labs(
+    x = "Baseline weight (g)",
+    y = "Final weight (g)",
+    colour = "Treatment"
+  )
+```

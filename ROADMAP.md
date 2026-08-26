@@ -85,8 +85,8 @@
 
 ## 6. Vignette and CI
 
-- [ ] Add one short getting-started vignette.
-- [ ] Cover installation, setup checking, project creation, template copying, and bundled data.
+- [x] Add one short getting-started vignette.
+- [x] Cover installation, setup checking, project creation, template copying, and bundled data.
 - [x] Check R-release on Windows and macOS, and R-devel, R-release, and
   R-oldrel-1 on Linux.
 - [x] Add a bundled-data loading check.
@@ -98,7 +98,7 @@
 
 - [ ] Test installation in a clean student-like environment.
 - [ ] Publish a tagged GitHub release.
-- [ ] Document the exact installation command.
+- [x] Document the exact installation command.
 - [ ] Use patch releases during the course only for genuine blockers.
 
 ## Done means
