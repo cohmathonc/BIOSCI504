@@ -2,10 +2,10 @@
 #'
 #' Lists the datasets and templates included in the package.
 #'
-#' @return A data frame with one row per resource.
+#' @return A tibble with one row per resource.
 #' @export
 course_resources <- function() {
-  data.frame(
+  tibble::tibble(
     resource = c(
       "mouse_trial",
       "mouse_trial_duplicates",
@@ -23,7 +23,6 @@ course_resources <- function() {
       "Mouse trial with group-dependent missingness.",
       "Mouse trial with a final-weight unit error.",
       "Quarto scaffold for a tabular comparison."
-    ),
-    stringsAsFactors = FALSE
+    )
   )
 }

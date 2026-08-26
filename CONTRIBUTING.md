@@ -11,6 +11,11 @@ Please propose changes with a pull request. Changes should:
 
 Use a pull request to propose dependency changes.
 
+Prefer tidyverse idioms for tabular data and visualization. In package code,
+call dependencies explicitly with `package::function()`; do not attach them
+with `library()`. Base R remains the natural choice for matrices, fundamental
+language concepts, and low-level system or filesystem work.
+
 ## Local checks
 
 Enable the tracked pre-push hook once in each clone:

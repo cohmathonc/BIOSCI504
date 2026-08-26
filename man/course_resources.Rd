@@ -7,7 +7,7 @@
 course_resources()
 }
 \value{
-A data frame with one row per resource.
+A tibble with one row per resource.
 }
 \description{
 Lists the datasets and templates included in the package.

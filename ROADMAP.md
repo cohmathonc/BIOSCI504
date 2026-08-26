@@ -70,9 +70,9 @@
 
 ## 5. Setup checks and dependencies
 
-- [ ] Add the agreed 10-day dependency stack and sensible minimum versions to `DESCRIPTION`.
-- [ ] Keep `DESCRIPTION` as the only dependency manifest.
-- [ ] Implement a concise, console-only `check_setup()` that checks:
+- [x] Add the agreed Days 1--4 dependency stack and sensible minimum versions to `DESCRIPTION`.
+- [x] Keep `DESCRIPTION` as the only course dependency manifest.
+- [x] Implement a concise `check_setup()` that checks:
   - R and required package versions
   - RStudio, where detectable
   - Quarto
@@ -81,8 +81,7 @@
   - bundled data loading
   - a simple ggplot
   - a minimal Quarto render
-  - a lightweight Seurat operation
-- [ ] Test checks through stable public results, not console formatting.
+- [x] Test checks through stable public results, not console formatting.
 
 ## 6. Vignette and CI
 
@@ -90,8 +89,8 @@
 - [ ] Cover installation, setup checking, project creation, template copying, and bundled data.
 - [x] Check R-release on Windows and macOS, and R-devel, R-release, and
   R-oldrel-1 on Linux.
-- [ ] Add a bundled-data loading check.
-- [ ] Add a basic plotting smoke test.
+- [x] Add a bundled-data loading check.
+- [x] Add a basic plotting smoke test.
 - [x] Add a minimal Quarto render.
 - [ ] Add a lightweight Seurat smoke test.
 

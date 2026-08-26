@@ -1,5 +1,5 @@
 run_pre_push_checks <- function() {
-  required_packages <- c("knitr", "rcmdcheck", "rmarkdown")
+  required_packages <- "rcmdcheck"
   installed <- vapply(
     required_packages,
     requireNamespace,
