@@ -18,7 +18,16 @@ fi
 echo "Checking generated package documentation..."
 Rscript -e '
 if (!requireNamespace("roxygen2", quietly = TRUE)) {
-  stop("Install roxygen2 before pushing.", call. = FALSE)
+  stop("Install roxygen2 7.3.3 before pushing.", call. = FALSE)
+}
+installed_version <- as.character(utils::packageVersion("roxygen2"))
+if (installed_version != "7.3.3") {
+  stop(
+    "Install roxygen2 7.3.3 before pushing; found ",
+    installed_version,
+    ".",
+    call. = FALSE
+  )
 }
 roxygen2::roxygenise()
 '

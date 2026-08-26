@@ -28,5 +28,5 @@ The hook validates GitHub Actions workflows, checks R formatting with Air,
 regenerates package documentation to detect drift, runs `R CMD check`, builds
 the pkgdown site, and renders every Quarto exercise template. Install
 `actionlint` or Go, Air or `uvx`, and the `roxygen2`, `pkgdown`, and `rcmdcheck`
-R packages. GitHub Actions remains responsible for the full operating-system
-and R-version matrix.
+R packages. Use roxygen2 7.3.3 so local documentation matches CI. GitHub Actions
+remains responsible for the full operating-system and R-version matrix.
