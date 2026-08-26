@@ -30,28 +30,43 @@ rule_cases <- tibble::tribble(
 )
 ```
 
-## Biological rule
+## Situation
+
+A study team needs a reproducible rule for identifying mouse records that
+require review. The same decision must behave consistently for ordinary,
+missing, and boundary values.
+
+## Review rule
 
 ::: {.analysis-prompt}
-Use this practice rule: flag a record when final weight is missing, or when a
-treated mouse lost at least 1.0 g.
+Use this practice rule: classify a record as requiring review when final weight
+is missing. Otherwise, flag a treated mouse that lost at least 1.0 g and
+classify all other records as not flagged.
 :::
 
 <!-- Identify the measurements, group, threshold, and missing-value behavior. -->
 
-## Prediction
+## Expected classifications
 
 ::: {.analysis-prompt}
-Predict which observations the rule will retain or classify and why.
+Classify each practice case before writing code. Pay particular attention to
+the missing value and the value exactly on the 1.0 g boundary.
 :::
+
+| Case | Expected classification | Reason |
+|---|---|---|
+| `case_1` |  |  |
+| `case_2` |  |  |
+| `case_3` |  |  |
+| `case_4` |  |  |
 
 ## Executable specification
 
 ::: {.analysis-prompt}
-Translate the rule into explicit comparisons joined with `&` or `|`.
+Translate the rule into ordered, explicit comparisons joined with `&` or `|`.
 :::
 
-<!-- Decide how missing values and values exactly on a boundary should behave. -->
+<!-- Check missing values before applying the numeric boundary. -->
 
 ## Constrained AI generation
 
@@ -64,9 +79,8 @@ prompt and generated code, but test the code before accepting it.
 
 ## Small-case test
 
-The four cases below include an ordinary value, a clear change, a missing value,
-and a treated mouse exactly at the 1.0 g boundary. Write the expected outcome
-for each before writing code.
+The four cases include an ordinary value, a clear change, a missing value, and
+a treated mouse exactly at the boundary.
 
 ```{r}
 rule_cases
@@ -79,18 +93,27 @@ rule_cases
 ## Scale the operation
 
 ::: {.analysis-prompt}
-Apply the tested condition to `mouse_trial` with `filter()` or `mutate()`.
+Use `filter()` to retain records that meet the numeric flag condition. Track
+records with missing final weight separately rather than dropping them silently.
 :::
 
 ```{r}
 # Inspect mouse_trial, derive any needed variables, then apply the rule.
 ```
 
+### Checkpoint
+
+::: {.analysis-prompt}
+Compare dimensions, flagged IDs, treatment counts, and representative rows
+before and after the operation.
+:::
+
 ## Conditional outcome
 
 ::: {.analysis-prompt}
 Use `if_else()` or `case_when()` to label records as flagged, not flagged, or
-requiring review. Explain why the branches are ordered as they are.
+requiring review. Check that these labels reproduce the expected practice-case
+classifications.
 :::
 
 ## Custom function
@@ -104,32 +127,18 @@ Wrap one well-tested rule in a small function with a descriptive name.
 ## Explicit iteration
 
 ::: {.analysis-prompt}
-Apply the function across a short, visible set of values using `purrr::map()`.
+Apply the function across a short, visible set of thresholds using
+`purrr::map()`. Predict what one threshold change should do before iterating;
+the missing-value classification should remain unchanged.
 :::
 
 <!-- First write down what one iteration receives and returns. -->
 
-## Bridge to airway
-
-`airway` is the course anchor for high-dimensional data. Once its instructor
-dependencies are installed, extract its sample metadata and apply the same
-inspect → specify → test → scale workflow.
-
-```{r}
-#| eval: false
-
-data(airway, package = "airway")
-airway_samples <- SummarizedExperiment::colData(airway) |>
-  as.data.frame() |>
-  tibble::rownames_to_column("sample_id") |>
-  tibble::as_tibble()
-```
-
-## Verification checkpoints
+## Final verification
 
 ::: {.analysis-prompt}
-Compare dimensions, retained IDs, group counts, and representative rows before
-and after the operation.
+Show that the small-case expectations, scaled classifications, conditional
+labels, function output, and iterated results agree.
 :::
 
 ## Result
@@ -149,3 +158,26 @@ Explain the biological meaning of the result and the consequence of the rule.
 ::: {.analysis-prompt}
 Point to the small-case test and scaled checkpoints that could reveal an error.
 :::
+
+## Optional extensions
+
+### Change the boundary
+
+Suppose the policy changes from “at least 1.0 g” to “more than 1.0 g.” Predict
+which cases change, update the rule, and rerun the same checks.
+
+### Transfer the workflow to airway
+
+`airway` is the course anchor for high-dimensional data. Once its instructor
+dependencies are installed, extract its sample metadata and apply the same
+inspect → specify → test → scale workflow.
+
+```{r}
+#| eval: false
+
+data(airway, package = "airway")
+airway_samples <- SummarizedExperiment::colData(airway) |>
+  as.data.frame() |>
+  tibble::rownames_to_column("sample_id") |>
+  tibble::as_tibble()
+```

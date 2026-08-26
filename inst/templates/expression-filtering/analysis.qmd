@@ -45,16 +45,15 @@ sample_info <- tibble::tribble(
 )
 ```
 
+## Situation
+
+Before comparing treatment groups, remove genes with almost no observed signal
+and transform the retained counts so large values do not dominate inspection.
+
 ## Biological question
 
 ::: {.analysis-prompt}
 State the biological comparison the expression data should support.
-:::
-
-## Prediction
-
-::: {.analysis-prompt}
-Predict how filtering or transformation could change the visible pattern.
 :::
 
 ## Inspect the representation
@@ -69,28 +68,16 @@ expression_counts
 sample_info
 ```
 
-## Bridge to airway
-
-The small matrix makes every consequence visible. Once the course `airway`
-dependencies are installed, repeat the same checks on the RNA-seq count matrix.
-
-```{r}
-#| eval: false
-
-data(airway, package = "airway")
-airway_counts <- SummarizedExperiment::assay(airway)
-dim(airway_counts)
-rownames(airway_counts)[1:6]
-colnames(airway_counts)
-```
-
-## Filtering rule
+## Commit before changing the data
 
 ::: {.analysis-prompt}
-Specify which genes should remain and why. Filtering changes what remains.
+Use this filtering rule: retain a gene when its count is at least 10 in at
+least two samples. Before applying it, list the genes you expect to retain,
+predict the resulting dimensions, and identify any boundary values.
 :::
 
-<!-- State the threshold, how many samples must pass it, and boundary behavior. -->
+Filtering changes what remains. State whether this rule operates across genes
+or samples and why that axis matches the scientific goal.
 
 ## Filter and checkpoint
 
@@ -98,22 +85,32 @@ Specify which genes should remain and why. Filtering changes what remains.
 # Apply the filter, then compare dimensions, gene names, and representative rows.
 ```
 
-## Transformation rule
-
 ::: {.analysis-prompt}
-Specify how retained values should change. Transformation changes how retained values are represented.
+Compare the observed retained genes and dimensions with your prediction. Explain
+any disagreement before continuing.
 :::
 
-<!-- State the transformation, any offset, and what problem it is intended to address. -->
+## Transform and checkpoint
+
+Use `log2(count + 1)` on the retained matrix. Transformation changes how
+retained values are represented.
+
+::: {.analysis-prompt}
+Before applying it, predict which differences will appear compressed and which
+ordering relationships should remain unchanged.
+:::
 
 Normalization affects how samples can be compared. Discuss it conceptually
 here; do not implement a normalization method in this exercise.
 
-## Transform and checkpoint
-
 ```{r}
 # Apply the transformation, then compare values, summaries, and distributions.
 ```
+
+::: {.analysis-prompt}
+Compare representative values, summaries, distributions, and sample labels
+before and after transformation.
+:::
 
 ## Compare strategies
 
@@ -142,3 +139,25 @@ Explain how the representation choices affect the biological comparison.
 Point to checks that distinguish filtering from transformation and reveal a
 misaligned sample or implausible value.
 :::
+
+## Optional extensions
+
+### Change the filtering assumption
+
+Require a count of at least 10 in all four samples. Predict which genes change,
+apply the revised rule, and compare the biological consequence.
+
+### Transfer the workflow to airway
+
+The small matrix makes every consequence visible. Once the course `airway`
+dependencies are installed, repeat the same checks on the RNA-seq count matrix.
+
+```{r}
+#| eval: false
+
+data(airway, package = "airway")
+airway_counts <- SummarizedExperiment::assay(airway)
+dim(airway_counts)
+rownames(airway_counts)[1:6]
+colnames(airway_counts)
+```

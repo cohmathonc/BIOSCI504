@@ -117,7 +117,7 @@ test_that("copy_template protects existing work unless overwrite is requested", 
   copy_template("tabular-comparison", dest = destination, overwrite = TRUE)
 
   expect_true(any(grepl(
-    "Biological question",
+    "Situation",
     readLines(file.path(destination, "analysis.qmd"))
   )))
   expect_identical(readLines(file.path(destination, "notes.txt")), "keep me")
@@ -136,19 +136,35 @@ test_that("the tabular comparison scaffold follows the agreed analysis workflow"
   expect_identical(
     sections,
     c(
-      "Biological question",
-      "Prediction",
+      "Situation",
+      "Question and prediction",
+      "How the data arose",
       "Analysis specification",
       "Data inspection",
-      "Analysis code",
-      "Verification checkpoints",
+      "Explain or debug with AI",
+      "Compare final weight",
+      "Derive and compare weight change",
+      "Final verification",
       "Result",
       "Interpretation",
-      "Why I trust this"
+      "Why I trust this",
+      "Optional extension"
     )
   )
   expect_true(any(grepl("library(BIOSCI504)", lines, fixed = TRUE)))
+  expect_true(any(grepl("library(tidyverse)", lines, fixed = TRUE)))
   expect_true(any(grepl("data(mouse_trial)", lines, fixed = TRUE)))
+  expect_true(any(grepl(
+    "without generating the analysis",
+    lines,
+    fixed = TRUE
+  )))
+  expect_true(any(grepl("weight_change_g", lines, fixed = TRUE)))
+  expect_true(any(grepl(
+    "Commit to an expectation before seeing the group comparison",
+    lines,
+    fixed = TRUE
+  )))
   expect_true(any(lines == "brand: _brand.yml"))
   expect_lt(match("      - cosmo", lines), match("      - brand", lines))
   expect_false(any(lines == "  warning: false"))
@@ -167,8 +183,9 @@ test_that("the Day 3 scaffold makes analytical rules explicit", {
   expect_identical(
     sections,
     c(
-      "Biological rule",
-      "Prediction",
+      "Situation",
+      "Review rule",
+      "Expected classifications",
       "Executable specification",
       "Constrained AI generation",
       "Small-case test",
@@ -176,11 +193,11 @@ test_that("the Day 3 scaffold makes analytical rules explicit", {
       "Conditional outcome",
       "Custom function",
       "Explicit iteration",
-      "Bridge to airway",
-      "Verification checkpoints",
+      "Final verification",
       "Result",
       "Interpretation",
-      "Why I trust this"
+      "Why I trust this",
+      "Optional extensions"
     )
   )
   expect_true(any(grepl("data(mouse_trial)", lines, fixed = TRUE)))
@@ -193,6 +210,7 @@ test_that("the Day 3 scaffold makes analytical rules explicit", {
   expect_true(any(grepl("&", lines, fixed = TRUE)))
   expect_true(any(grepl("|", lines, fixed = TRUE)))
   expect_true(any(grepl("if_else()", lines, fixed = TRUE)))
+  expect_true(any(grepl("more than 1.0 g", lines, fixed = TRUE)))
   expect_true(any(grepl("data(airway", lines, fixed = TRUE)))
   expect_true(any(lines == "#| eval: false"))
 })
@@ -210,27 +228,29 @@ test_that("the Day 4 scaffold distinguishes filtering from transformation", {
   expect_identical(
     sections,
     c(
+      "Situation",
       "Biological question",
-      "Prediction",
       "Inspect the representation",
-      "Bridge to airway",
-      "Filtering rule",
+      "Commit before changing the data",
       "Filter and checkpoint",
-      "Transformation rule",
       "Transform and checkpoint",
       "Compare strategies",
       "Result",
       "Interpretation",
-      "Why I trust this"
+      "Why I trust this",
+      "Optional extensions"
     )
   )
   expect_true(any(grepl("expression_counts <- matrix", lines, fixed = TRUE)))
   expect_true(any(grepl("Filtering changes what remains", lines, fixed = TRUE)))
   expect_true(any(grepl(
-    "Transformation changes how retained values are represented",
+    "Transformation changes how",
     lines,
     fixed = TRUE
   )))
+  expect_true(any(grepl("count is at least 10", lines, fixed = TRUE)))
+  expect_true(any(grepl("least two samples", lines, fixed = TRUE)))
+  expect_true(any(grepl("log2(count + 1)", lines, fixed = TRUE)))
   expect_true(any(grepl("data(airway", lines, fixed = TRUE)))
   expect_true(any(lines == "#| eval: false"))
   expect_true(any(grepl("Normalization", lines, fixed = TRUE)))
