@@ -10,3 +10,15 @@ Please propose changes with a pull request. Changes should:
 - keep course-management material out of the package.
 
 Use a pull request to propose dependency changes.
+
+## Local checks
+
+Enable the tracked pre-push hook once in each clone:
+
+```sh
+git config core.hooksPath .githooks
+```
+
+The hook runs `R CMD check` and renders the Quarto exercise template before
+each push. GitHub Actions remains responsible for the full operating-system and
+R-version matrix.
