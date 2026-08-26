@@ -1,4 +1,5 @@
 ^LICENSE\.md$
+^\.github$
 ^CONTRIBUTING\.md$
 ^ROADMAP\.md$
 ^data-raw$

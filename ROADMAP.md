@@ -88,10 +88,11 @@
 
 - [ ] Add one short getting-started vignette.
 - [ ] Cover installation, setup checking, project creation, template copying, and bundled data.
-- [ ] Add package checks on all three target platforms: Windows, macOS, and Linux.
+- [x] Check R-release on Windows and macOS, and R-devel, R-release, and
+  R-oldrel-1 on Linux.
 - [ ] Add a bundled-data loading check.
 - [ ] Add a basic plotting smoke test.
-- [ ] Add a minimal Quarto render.
+- [x] Add a minimal Quarto render.
 - [ ] Add a lightweight Seurat smoke test.
 
 ## 7. Release
