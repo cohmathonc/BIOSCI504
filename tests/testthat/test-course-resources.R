@@ -29,12 +29,33 @@ test_that("course_resources lists the packaged teaching datasets", {
   expect_true(all(datasets$resource %in% ls(loaded_resources)))
 })
 
-test_that("course_resources lists the tabular comparison template", {
+test_that("course_resources lists each exercise template", {
   resources <- course_resources()
   templates <- resources[resources$type == "template", , drop = FALSE]
 
-  expect_identical(templates$resource, "tabular-comparison")
-  expect_true(is.na(templates$alias))
-  expect_identical(templates$day, 2L)
-  expect_identical(templates$topic, "Tabular comparison")
+  expect_identical(
+    templates$resource,
+    c(
+      "tabular-comparison",
+      "explicit-analytical-rules",
+      "expression-filtering"
+    )
+  )
+  expect_identical(templates$alias, c("day-2", "day-3", "day-4"))
+  expect_identical(templates$day, 2:4)
+  expect_identical(
+    templates$topic,
+    c(
+      "Tabular comparison",
+      "Explicit analytical rules",
+      "Expression filtering and transformation"
+    )
+  )
+
+  template_paths <- system.file(
+    "templates",
+    templates$resource,
+    package = "BIOSCI504"
+  )
+  expect_true(all(dir.exists(template_paths)))
 })

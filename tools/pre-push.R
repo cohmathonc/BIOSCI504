@@ -98,21 +98,26 @@ run_pre_push_checks <- function() {
 
   project <- file.path(work, "course-project")
   BIOSCI504::create_course_project(project)
-  BIOSCI504::copy_template(
-    "tabular-comparison",
-    dest = file.path(project, "exercises", "tabular-comparison")
-  )
+  templates <- BIOSCI504::course_resources() |>
+    dplyr::filter(.data$type == "template") |>
+    dplyr::pull(.data$resource)
+  purrr::walk(templates, function(template) {
+    BIOSCI504::copy_template(
+      template,
+      dest = file.path(project, "exercises", template)
+    )
+  })
 
-  message("Rendering the Quarto exercise template...")
+  message("Rendering the Quarto exercise templates...")
   original_directory <- setwd(project)
   on.exit(setwd(original_directory), add = TRUE)
   render_status <- system2(
     quarto,
-    c("render", "exercises/tabular-comparison/analysis.qmd"),
+    c("render", "exercises"),
     env = paste0("R_LIBS=", paste(.libPaths(), collapse = .Platform$path.sep))
   )
   if (!identical(render_status, 0L)) {
-    stop("The Quarto exercise template did not render.", call. = FALSE)
+    stop("The Quarto exercise templates did not render.", call. = FALSE)
   }
 
   message("Pre-push checks passed.")

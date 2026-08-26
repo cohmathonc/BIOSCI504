@@ -1,0 +1,151 @@
+---
+title: "Explicit analytical rules"
+subtitle: "From biological intent to executable conditions"
+brand: _brand.yml
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    toc: true
+    code-fold: false
+execute:
+  echo: true
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+library(BIOSCI504)
+library(tidyverse)
+data(mouse_trial)
+
+rule_cases <- tibble::tribble(
+  ~mouse_id, ~treatment, ~baseline_weight_g, ~final_weight_g,
+  "case_1", "vehicle", 24.0, 24.4,
+  "case_2", "treatment", 25.0, 23.2,
+  "case_3", "treatment", 22.5, NA_real_,
+  "case_4", "treatment", 21.0, 20.0
+)
+```
+
+## Biological rule
+
+::: {.analysis-prompt}
+Use this practice rule: flag a record when final weight is missing, or when a
+treated mouse lost at least 1.0 g.
+:::
+
+<!-- Identify the measurements, group, threshold, and missing-value behavior. -->
+
+## Prediction
+
+::: {.analysis-prompt}
+Predict which observations the rule will retain or classify and why.
+:::
+
+## Executable specification
+
+::: {.analysis-prompt}
+Translate the rule into explicit comparisons joined with `&` or `|`.
+:::
+
+<!-- Decide how missing values and values exactly on a boundary should behave. -->
+
+## Constrained AI generation
+
+::: {.analysis-prompt}
+Give the executable specification to AI as a constrained prompt. Preserve the
+prompt and generated code, but test the code before accepting it.
+:::
+
+<!-- Ask for one operation and name the permitted inputs, output, and checks. -->
+
+## Small-case test
+
+The four cases below include an ordinary value, a clear change, a missing value,
+and a treated mouse exactly at the 1.0 g boundary. Write the expected outcome
+for each before writing code.
+
+```{r}
+rule_cases
+```
+
+```{r}
+# Apply the rule to rule_cases. Compare the result with your expected outcomes.
+```
+
+## Scale the operation
+
+::: {.analysis-prompt}
+Apply the tested condition to `mouse_trial` with `filter()` or `mutate()`.
+:::
+
+```{r}
+# Inspect mouse_trial, derive any needed variables, then apply the rule.
+```
+
+## Conditional outcome
+
+::: {.analysis-prompt}
+Use `if_else()` or `case_when()` to label records as flagged, not flagged, or
+requiring review. Explain why the branches are ordered as they are.
+:::
+
+## Custom function
+
+::: {.analysis-prompt}
+Wrap one well-tested rule in a small function with a descriptive name.
+:::
+
+<!-- Keep the function focused. Its inputs and output should be easy to explain. -->
+
+## Explicit iteration
+
+::: {.analysis-prompt}
+Apply the function across a short, visible set of values using `purrr::map()`.
+:::
+
+<!-- First write down what one iteration receives and returns. -->
+
+## Bridge to airway
+
+`airway` is the course anchor for high-dimensional data. Once its instructor
+dependencies are installed, extract its sample metadata and apply the same
+inspect → specify → test → scale workflow.
+
+```{r}
+#| eval: false
+
+data(airway, package = "airway")
+airway_samples <- SummarizedExperiment::colData(airway) |>
+  as.data.frame() |>
+  tibble::rownames_to_column("sample_id") |>
+  tibble::as_tibble()
+```
+
+## Verification checkpoints
+
+::: {.analysis-prompt}
+Compare dimensions, retained IDs, group counts, and representative rows before
+and after the operation.
+:::
+
+## Result
+
+::: {.analysis-prompt}
+Report what the rule retained or classified without interpreting it yet.
+:::
+
+## Interpretation
+
+::: {.analysis-prompt}
+Explain the biological meaning of the result and the consequence of the rule.
+:::
+
+## Why I trust this
+
+::: {.analysis-prompt}
+Point to the small-case test and scaled checkpoints that could reveal an error.
+:::

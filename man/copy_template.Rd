@@ -7,7 +7,7 @@
 copy_template(template, dest = NULL, overwrite = FALSE)
 }
 \arguments{
-\item{template}{Template name.}
+\item{template}{Canonical template name or day alias.}
 
 \item{dest}{Destination directory. When `NULL`, the function looks upward
 from the working directory for a project made by [create_course_project()]

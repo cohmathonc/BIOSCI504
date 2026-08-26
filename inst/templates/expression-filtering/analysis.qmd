@@ -1,0 +1,144 @@
+---
+title: "Expression filtering and transformation"
+subtitle: "Reason about what remains and how values are represented"
+brand: _brand.yml
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    toc: true
+    code-fold: false
+execute:
+  echo: true
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+library(tidyverse)
+
+expression_counts <- matrix(
+  c(
+    0, 0, 0, 0,
+    1, 0, 2, 1,
+    8, 10, 31, 28,
+    45, 52, 48, 55,
+    120, 110, 420, 390,
+    900, 1050, 980, 1120
+  ),
+  nrow = 6,
+  byrow = TRUE,
+  dimnames = list(
+    paste0("gene_", LETTERS[1:6]),
+    c("control_1", "control_2", "treated_1", "treated_2")
+  )
+)
+
+sample_info <- tibble::tribble(
+  ~sample_id, ~treatment,
+  "control_1", "control",
+  "control_2", "control",
+  "treated_1", "treated",
+  "treated_2", "treated"
+)
+```
+
+## Biological question
+
+::: {.analysis-prompt}
+State the biological comparison the expression data should support.
+:::
+
+## Prediction
+
+::: {.analysis-prompt}
+Predict how filtering or transformation could change the visible pattern.
+:::
+
+## Inspect the representation
+
+::: {.analysis-prompt}
+Inspect dimensions, row and column labels, representative values, summaries,
+and the link between matrix columns and `sample_info`.
+:::
+
+```{r}
+expression_counts
+sample_info
+```
+
+## Bridge to airway
+
+The small matrix makes every consequence visible. Once the course `airway`
+dependencies are installed, repeat the same checks on the RNA-seq count matrix.
+
+```{r}
+#| eval: false
+
+data(airway, package = "airway")
+airway_counts <- SummarizedExperiment::assay(airway)
+dim(airway_counts)
+rownames(airway_counts)[1:6]
+colnames(airway_counts)
+```
+
+## Filtering rule
+
+::: {.analysis-prompt}
+Specify which genes should remain and why. Filtering changes what remains.
+:::
+
+<!-- State the threshold, how many samples must pass it, and boundary behavior. -->
+
+## Filter and checkpoint
+
+```{r}
+# Apply the filter, then compare dimensions, gene names, and representative rows.
+```
+
+## Transformation rule
+
+::: {.analysis-prompt}
+Specify how retained values should change. Transformation changes how retained values are represented.
+:::
+
+<!-- State the transformation, any offset, and what problem it is intended to address. -->
+
+Normalization affects how samples can be compared. Discuss it conceptually
+here; do not implement a normalization method in this exercise.
+
+## Transform and checkpoint
+
+```{r}
+# Apply the transformation, then compare values, summaries, and distributions.
+```
+
+## Compare strategies
+
+::: {.analysis-prompt}
+Ask AI for two plausible preprocessing strategies. Record both, test each on
+the same fixture, and identify evidence that distinguishes them.
+:::
+
+<!-- Do not choose a strategy because it runs. Compare its consequences. -->
+
+## Result
+
+::: {.analysis-prompt}
+Show the before-and-after dimensions, representative values, and visual pattern.
+:::
+
+## Interpretation
+
+::: {.analysis-prompt}
+Explain how the representation choices affect the biological comparison.
+:::
+
+## Why I trust this
+
+::: {.analysis-prompt}
+Point to checks that distinguish filtering from transformation and reveal a
+misaligned sample or implausible value.
+:::

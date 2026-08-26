@@ -1,15 +1,41 @@
-test_that("copy_template copies the tabular comparison scaffold", {
-  destination <- tempfile("tabular-comparison-")
+test_that("copy_template copies each exercise scaffold", {
+  templates <- c(
+    "tabular-comparison",
+    "explicit-analytical-rules",
+    "expression-filtering"
+  )
   original_directory <- getwd()
 
-  result <- copy_template("tabular-comparison", dest = destination)
+  purrr::walk(templates, function(template) {
+    destination <- tempfile(paste0(template, "-"))
+    result <- copy_template(template, dest = destination)
 
-  expect_identical(result, invisible(destination))
-  expect_setequal(
-    list.files(destination, all.files = TRUE, no.. = TRUE),
-    c("_brand.yml", "analysis.qmd")
-  )
+    expect_identical(result, invisible(destination))
+    expect_setequal(
+      list.files(destination, all.files = TRUE, no.. = TRUE),
+      c("_brand.yml", "analysis.qmd")
+    )
+  })
   expect_identical(getwd(), original_directory)
+})
+
+test_that("copy_template resolves day aliases to canonical templates", {
+  aliases <- c(
+    "day-2" = "tabular-comparison",
+    "day-3" = "explicit-analytical-rules",
+    "day-4" = "expression-filtering"
+  )
+
+  purrr::iwalk(aliases, function(template, alias) {
+    destination <- tempfile(paste0(alias, "-"))
+    copy_template(alias, dest = destination)
+
+    copied <- readLines(file.path(destination, "analysis.qmd"))
+    source <- readLines(
+      system.file("templates", template, "analysis.qmd", package = "BIOSCI504")
+    )
+    expect_identical(copied, source)
+  })
 })
 
 test_that("copy_template defaults to the course project exercises directory", {
@@ -45,7 +71,11 @@ test_that("copy_template requires an explicit destination outside a course proje
 test_that("copy_template reports the available template for an unknown name", {
   expect_error(
     copy_template("unknown", dest = tempfile()),
-    "Unknown template `unknown`. Available template: `tabular-comparison`.",
+    paste0(
+      "Unknown template `unknown`. Available templates: ",
+      "`tabular-comparison`, `explicit-analytical-rules`, ",
+      "`expression-filtering`."
+    ),
     fixed = TRUE
   )
 })
@@ -116,4 +146,86 @@ test_that("the tabular comparison scaffold follows the agreed analysis workflow"
   expect_true(any(lines == "brand: _brand.yml"))
   expect_lt(match("      - cosmo", lines), match("      - brand", lines))
   expect_false(any(lines == "  warning: false"))
+})
+
+test_that("the Day 3 scaffold makes analytical rules explicit", {
+  template <- system.file(
+    "templates",
+    "explicit-analytical-rules",
+    "analysis.qmd",
+    package = "BIOSCI504"
+  )
+  lines <- readLines(template)
+  sections <- sub("^## ", "", grep("^## ", lines, value = TRUE))
+
+  expect_identical(
+    sections,
+    c(
+      "Biological rule",
+      "Prediction",
+      "Executable specification",
+      "Constrained AI generation",
+      "Small-case test",
+      "Scale the operation",
+      "Conditional outcome",
+      "Custom function",
+      "Explicit iteration",
+      "Bridge to airway",
+      "Verification checkpoints",
+      "Result",
+      "Interpretation",
+      "Why I trust this"
+    )
+  )
+  expect_true(any(grepl("data(mouse_trial)", lines, fixed = TRUE)))
+  expect_true(any(grepl("rule_cases <- tibble::tribble", lines, fixed = TRUE)))
+  expect_true(any(grepl(
+    '"case_4", "treatment", 21.0, 20.0',
+    lines,
+    fixed = TRUE
+  )))
+  expect_true(any(grepl("&", lines, fixed = TRUE)))
+  expect_true(any(grepl("|", lines, fixed = TRUE)))
+  expect_true(any(grepl("if_else()", lines, fixed = TRUE)))
+  expect_true(any(grepl("data(airway", lines, fixed = TRUE)))
+  expect_true(any(lines == "#| eval: false"))
+})
+
+test_that("the Day 4 scaffold distinguishes filtering from transformation", {
+  template <- system.file(
+    "templates",
+    "expression-filtering",
+    "analysis.qmd",
+    package = "BIOSCI504"
+  )
+  lines <- readLines(template)
+  sections <- sub("^## ", "", grep("^## ", lines, value = TRUE))
+
+  expect_identical(
+    sections,
+    c(
+      "Biological question",
+      "Prediction",
+      "Inspect the representation",
+      "Bridge to airway",
+      "Filtering rule",
+      "Filter and checkpoint",
+      "Transformation rule",
+      "Transform and checkpoint",
+      "Compare strategies",
+      "Result",
+      "Interpretation",
+      "Why I trust this"
+    )
+  )
+  expect_true(any(grepl("expression_counts <- matrix", lines, fixed = TRUE)))
+  expect_true(any(grepl("Filtering changes what remains", lines, fixed = TRUE)))
+  expect_true(any(grepl(
+    "Transformation changes how retained values are represented",
+    lines,
+    fixed = TRUE
+  )))
+  expect_true(any(grepl("data(airway", lines, fixed = TRUE)))
+  expect_true(any(lines == "#| eval: false"))
+  expect_true(any(grepl("Normalization", lines, fixed = TRUE)))
 })

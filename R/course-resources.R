@@ -5,24 +5,37 @@
 #' @return A tibble with one row per resource.
 #' @export
 course_resources <- function() {
-  tibble::tibble(
+  datasets <- tibble::tibble(
     resource = c(
       "mouse_trial",
       "mouse_trial_duplicates",
       "mouse_trial_missingness",
-      "mouse_trial_unit_error",
-      "tabular-comparison"
+      "mouse_trial_unit_error"
     ),
-    type = c(rep("dataset", 4L), "template"),
-    alias = rep(NA_character_, 5L),
-    day = rep(2L, 5L),
-    topic = rep("Tabular comparison", 5L),
+    type = rep("dataset", 4L),
+    alias = rep(NA_character_, 4L),
+    day = rep(2L, 4L),
+    topic = rep("Tabular comparison", 4L),
     description = c(
       "Core mouse treatment dataset.",
       "Mouse trial with repeated records.",
       "Mouse trial with group-dependent missingness.",
-      "Mouse trial with a final-weight unit error.",
-      "Quarto scaffold for a tabular comparison."
+      "Mouse trial with a final-weight unit error."
     )
+  )
+
+  dplyr::bind_rows(datasets, course_template_registry())
+}
+
+course_template_registry <- function() {
+  tibble::tribble(
+    ~resource, ~type, ~alias, ~day, ~topic, ~description,
+    "tabular-comparison", "template", "day-2", 2L,
+    "Tabular comparison", "Quarto scaffold for a tabular comparison.",
+    "explicit-analytical-rules", "template", "day-3", 3L,
+    "Explicit analytical rules", "Quarto scaffold for conditions and iteration.",
+    "expression-filtering", "template", "day-4", 4L,
+    "Expression filtering and transformation",
+    "Quarto scaffold for filtering and transforming expression data."
   )
 }

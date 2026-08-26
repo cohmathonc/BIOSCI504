@@ -66,7 +66,7 @@ jobs:
       - name: Install BIOSCI504
         run: R CMD INSTALL .
 
-      - name: Copy exercise template
+      - name: Copy exercise templates
         shell: Rscript {0}
         run: |
           project <- file.path(
@@ -74,11 +74,16 @@ jobs:
             "BIOSCI504-course-project"
           )
           BIOSCI504::create_course_project(project)
-          BIOSCI504::copy_template(
-            "tabular-comparison",
-            dest = file.path(project, "exercises", "tabular-comparison")
-          )
+          templates <- BIOSCI504::course_resources() |>
+            dplyr::filter(.data$type == "template") |>
+            dplyr::pull(.data$resource)
+          purrr::walk(templates, function(template) {
+            BIOSCI504::copy_template(
+              template,
+              dest = file.path(project, "exercises", template)
+            )
+          })
 
-      - name: Render exercise template
+      - name: Render exercise templates
         working-directory: ${{ runner.temp }}/BIOSCI504-course-project
-        run: quarto render exercises/tabular-comparison/analysis.qmd
+        run: quarto render exercises

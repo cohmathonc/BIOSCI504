@@ -2,7 +2,7 @@
 #'
 #' Copies a self-contained exercise scaffold from the package.
 #'
-#' @param template Template name.
+#' @param template Canonical template name or day alias.
 #' @param dest Destination directory. When `NULL`, the function looks upward
 #'   from the working directory for a project made by [create_course_project()]
 #'   and copies to `exercises/<template>`.
@@ -22,18 +22,29 @@ copy_template <- function(template, dest = NULL, overwrite = FALSE) {
     stop("`overwrite` must be `TRUE` or `FALSE`.", call. = FALSE)
   }
 
-  available_templates <- "tabular-comparison"
-  if (!identical(template, available_templates)) {
+  templates <- course_template_registry()
+  selected <- dplyr::filter(
+    templates,
+    .data$resource == template | .data$alias == template
+  )
+  if (nrow(selected) == 0L) {
+    available <- paste0("`", templates$resource, "`", collapse = ", ")
     stop(
       sprintf(
-        "Unknown template `%s`. Available template: `tabular-comparison`.",
-        template
+        "Unknown template `%s`. Available templates: %s.",
+        template,
+        available
       ),
       call. = FALSE
     )
   }
+  canonical_template <- selected$resource[[1]]
 
-  template_path <- system.file("templates", template, package = "BIOSCI504")
+  template_path <- system.file(
+    "templates",
+    canonical_template,
+    package = "BIOSCI504"
+  )
   if (is.null(dest)) {
     project_root <- find_course_project(getwd())
     if (is.null(project_root)) {
@@ -42,7 +53,7 @@ copy_template <- function(template, dest = NULL, overwrite = FALSE) {
         call. = FALSE
       )
     }
-    dest <- file.path(project_root, "exercises", template)
+    dest <- file.path(project_root, "exercises", canonical_template)
   }
   if (!is.character(dest) || length(dest) != 1L || is.na(dest) || !nzchar(dest)) {
     stop("`dest` must be a single, non-empty path.", call. = FALSE)
