@@ -50,9 +50,25 @@ create_course_project <- function(path) {
 
   writeLines(
     c(
+      "local({",
+      "  repos <- getOption(\"repos\")",
+      "  repos[\"CRAN\"] <- \"https://cloud.r-project.org\"",
+      "  options(repos = repos)",
+      "",
+      "  if (.Platform$OS.type == \"windows\") {",
+      "    options(install.packages.compile.from.source = \"never\")",
+      "  }",
+      "})"
+    ),
+    file.path(path, ".Rprofile")
+  )
+
+  writeLines(
+    c(
       "# BIOSCI504",
       "",
       "Use this project for BIOSCI 504 exercises.",
+      "Open `BIOSCI504.Rproj` in RStudio before you begin.",
       "Put each exercise in `exercises/`."
     ),
     file.path(path, "README.md")

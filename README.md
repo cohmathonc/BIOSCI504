@@ -7,6 +7,7 @@ Read the documentation at <https://cohmathonc.github.io/BIOSCI504/>.
 ## Install
 
 ```r
+options(repos = c(CRAN = "https://cloud.r-project.org"))
 install.packages("pak")
 pak::pak("cohmathonc/BIOSCI504")
 ```
@@ -39,6 +40,7 @@ BIOSCI504::create_course_project("~/BIOSCI504")
 ```
 
 This creates an RStudio and Quarto project with a directory for exercises.
+Open `~/BIOSCI504/BIOSCI504.Rproj` in RStudio before continuing.
 
 ## Get started
 

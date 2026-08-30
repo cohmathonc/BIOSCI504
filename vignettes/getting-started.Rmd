@@ -19,6 +19,7 @@ data, projects, and exercise templates.
 Install the package once from GitHub:
 
 ```{r install, eval = FALSE}
+options(repos = c(CRAN = "https://cloud.r-project.org"))
 install.packages("pak")
 pak::pak("cohmathonc/BIOSCI504")
 ```
@@ -42,8 +43,9 @@ Choose a folder that is easy to find:
 BIOSCI504::create_course_project("~/BIOSCI504")
 ```
 
-Open `BIOSCI504.Rproj` before continuing. This keeps course files together and
-makes relative paths predictable.
+Open `~/BIOSCI504/BIOSCI504.Rproj` in RStudio before continuing. This keeps
+course files together, applies the course repository settings, and makes
+relative paths predictable.
 
 ## Copy an exercise
 
