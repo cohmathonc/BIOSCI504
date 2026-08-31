@@ -31,7 +31,9 @@ course_template_registry <- function() {
   # fmt: skip
   tibble::tribble(
     ~resource, ~type, ~alias, ~day, ~topic, ~description,
-    "tabular-comparison", "template", "day-2", 2L,
+    "working-with-r", "template", "lecture-2", 2L,
+    "Working with R and RStudio", "Guided Quarto code-along for working in RStudio.",
+    "tabular-comparison", "template", "lecture-3", 2L,
     "Tabular comparison", "Quarto scaffold for a tabular comparison.",
     "explicit-analytical-rules", "template", "day-3", 3L,
     "Explicit analytical rules", "Quarto scaffold for conditions and iteration.",

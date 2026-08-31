@@ -1,0 +1,244 @@
+---
+title: "Working with R and RStudio"
+subtitle: "A short code-along"
+brand: _brand.yml
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    toc: true
+    code-fold: false
+execute:
+  echo: true
+---
+
+## Console and document
+
+Run `2 + 2` in the Console. Then run the chunk below.
+
+```{r}
+2 + 2
+```
+
+Both commands are evaluated by R. Only one is recorded in this document.
+
+## The Console is a REPL
+
+The Console is a **read-evaluate-print loop**:
+
+1. R reads the expression entered at the `>` prompt.
+2. R evaluates it.
+3. R prints the result.
+4. The `>` prompt returns for the next expression.
+
+Type `1 +` in the Console and press Enter. The `+` prompt means that R is
+waiting for the rest of an incomplete expression. Press Escape to cancel it.
+
+In a Quarto code chunk, `Ctrl+Enter` sends the current line to the Console on
+Windows.
+
+## Question and prediction
+
+What is the mean weight of these three recorded mice?
+
+::: {.analysis-prompt}
+Before running the calculation, predict an approximate value. The mean should
+lie between the smallest and largest recorded weights.
+:::
+
+Use each recorded weight once and calculate the arithmetic mean in grams.
+
+## Common atomic storage types
+
+Run each expression and compare the results.
+
+```{r}
+typeof(18.2)
+typeof(18L)
+typeof("M01")
+typeof(TRUE)
+```
+
+- Ordinary numerical measurements such as `18.2` are stored as doubles.
+- The `L` in `18L` marks an integer.
+- Quoted text is a character value.
+- `TRUE` and `FALSE` are logical values.
+
+Complex and raw values complete R's six atomic storage types. They are not
+needed for this analysis.
+
+## Missing values retain a type
+
+Run each expression. A bare `NA` is logical; the suffix records another
+underlying type.
+
+```{r}
+typeof(NA)
+typeof(NA_integer_)
+typeof(NA_real_)
+typeof(NA_complex_)
+typeof(NA_character_)
+```
+
+Use a predicate to find missing values:
+
+```{r}
+is.na(c("M01", NA_character_, "NA"))
+```
+
+`NA_character_` is a missing character value. `"NA"` is two letters stored as
+text. Raw vectors are the one atomic type without a missing-value constant.
+
+## Objects and vectors
+
+Before running this chunk, predict the value returned by `mean()`.
+
+```{r}
+weights_g <- c(18.2, 19.5, 20.1)
+typeof(weights_g)
+length(weights_g)
+mean(weights_g)
+```
+
+- `weights_g` names an object.
+- `c()` creates a vector whose values have one underlying type.
+- `length()` and `mean()` are functions.
+- The values inside `c()` are arguments.
+
+Run `?mean` in the Console to open its help page.
+
+## A small tibble
+
+```{r}
+#| message: false
+
+library(tidyverse)
+
+measurements <- tibble(
+  mouse_id = c("M01", "M02", "M03"),
+  weight_g = weights_g
+)
+
+measurements
+glimpse(measurements)
+typeof(measurements)
+class(measurements)
+```
+
+::: {.analysis-prompt}
+Identify the package, object, functions, arguments and column names in this
+chunk. Which column is character, and which is double?
+:::
+
+Each tibble column is a vector. Columns in the same tibble have the same
+length. `typeof()` describes how an object is stored; `class()` helps determine
+how functions interpret it.
+
+## Missing, undefined, infinite or absent?
+
+```{r}
+special_values <- c(18.2, NA_real_, NaN, Inf, -Inf)
+
+tibble(
+  value = special_values,
+  missing = is.na(special_values),
+  undefined = is.nan(special_values),
+  infinite = is.infinite(special_values),
+  finite = is.finite(special_values)
+)
+```
+
+- `NA` records an unknown or missing value.
+- `NaN` is an undefined numerical result; it is also detected by `is.na()`.
+- `Inf` and `-Inf` are infinite numerical results, not missing values.
+- `NULL` represents absence rather than a missing observation.
+
+```{r}
+typeof(NULL)
+length(NULL)
+is.null(NULL)
+```
+
+## Missingness is an analytical decision
+
+```{r}
+weights_with_missing <- c(18.2, NA_real_, 20.1)
+mean(weights_with_missing)
+mean(weights_with_missing, na.rm = TRUE)
+```
+
+::: {.analysis-prompt}
+How many observations contribute to the second mean? What would justify
+excluding the missing value from this calculation?
+:::
+
+`na.rm = TRUE` changes the calculation. It should record a scientific decision,
+not serve as routine cleanup.
+
+## Result and check
+
+```{r}
+length(weights_g)
+range(weights_g)
+mean(weights_g)
+```
+
+::: {.analysis-prompt}
+Report the mean with its unit. Confirm that three values were used and that the
+mean lies within their observed range.
+:::
+
+This result describes these three records. It does not establish a population
+average or a treatment effect.
+
+## Read an error
+
+Type this command in the Console:
+
+```r
+mean(weight_g)
+```
+
+Read the error before changing the command. Which object exists, and where can
+you confirm its name?
+
+`weight_g` is not a standalone object. It is also the name of a column inside
+`measurements`. Use `$` to state where that column lives:
+
+```{r}
+names(measurements)
+measurements$weight_g
+mean(measurements$weight_g)
+```
+
+## Read a warning
+
+Predict the type of `mixed_weights`, then run the chunk.
+
+```{r}
+mixed_weights <- c(18.2, 19.5, "20.1")
+typeof(mixed_weights)
+mean(mixed_weights)
+```
+
+The quoted value makes the whole atomic vector character. `mean()` completes,
+but warns that its input is not numeric or logical and returns `NA`. Read a
+warning before deciding whether its output is usable.
+
+## Restart and render
+
+1. Save this document.
+2. Select **Session > Restart R**.
+3. Check that the Environment is empty.
+4. Select **Render**.
+
+If the document renders, the code it needs is recorded in the document and can
+be run from a clean session.
+
+## What persisted?
+
+::: {.analysis-prompt}
+After restarting R, what disappeared? What remained on disk? Which one is the
+durable record of this work?
+:::

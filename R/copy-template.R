@@ -2,7 +2,7 @@
 #'
 #' Copies a self-contained exercise scaffold from the package.
 #'
-#' @param template Canonical template name or day alias.
+#' @param template Canonical template name or teaching alias.
 #' @param dest Destination directory. When `NULL`, the function looks upward
 #'   from the working directory for a project made by [create_course_project()]
 #'   and copies to `exercises/<template>`.

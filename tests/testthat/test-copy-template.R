@@ -1,5 +1,6 @@
 test_that("copy_template copies each exercise scaffold", {
   templates <- c(
+    "working-with-r",
     "tabular-comparison",
     "explicit-analytical-rules",
     "expression-filtering"
@@ -19,9 +20,10 @@ test_that("copy_template copies each exercise scaffold", {
   expect_identical(getwd(), original_directory)
 })
 
-test_that("copy_template resolves day aliases to canonical templates", {
+test_that("copy_template resolves teaching aliases to canonical templates", {
   aliases <- c(
-    "day-2" = "tabular-comparison",
+    "lecture-2" = "working-with-r",
+    "lecture-3" = "tabular-comparison",
     "day-3" = "explicit-analytical-rules",
     "day-4" = "expression-filtering"
   )
@@ -73,7 +75,8 @@ test_that("copy_template reports the available template for an unknown name", {
     copy_template("unknown", dest = tempfile()),
     paste0(
       "Unknown template `unknown`. Available templates: ",
-      "`tabular-comparison`, `explicit-analytical-rules`, ",
+      "`working-with-r`, `tabular-comparison`, ",
+      "`explicit-analytical-rules`, ",
       "`expression-filtering`."
     ),
     fixed = TRUE
@@ -96,6 +99,72 @@ test_that("copy_template validates its public arguments", {
     "`overwrite` must be `TRUE` or `FALSE`.",
     fixed = TRUE
   )
+})
+
+test_that("the working with R scaffold supports the guided code-along", {
+  template <- system.file(
+    "templates",
+    "working-with-r",
+    "analysis.qmd",
+    package = "BIOSCI504"
+  )
+  lines <- readLines(template)
+  sections <- sub("^## ", "", grep("^## ", lines, value = TRUE))
+
+  expect_identical(
+    sections,
+    c(
+      "Console and document",
+      "The Console is a REPL",
+      "Question and prediction",
+      "Common atomic storage types",
+      "Missing values retain a type",
+      "Objects and vectors",
+      "A small tibble",
+      "Missing, undefined, infinite or absent?",
+      "Missingness is an analytical decision",
+      "Result and check",
+      "Read an error",
+      "Read a warning",
+      "Restart and render",
+      "What persisted?"
+    )
+  )
+  expect_true(any(grepl("library(tidyverse)", lines, fixed = TRUE)))
+  expect_true(any(grepl("weights_g <- c(", lines, fixed = TRUE)))
+  expect_true(any(grepl("mean(weights_g)", lines, fixed = TRUE)))
+  expect_true(any(grepl("mean(weight_g)", lines, fixed = TRUE)))
+  expect_true(any(grepl("length(weights_g)", lines, fixed = TRUE)))
+  expect_true(any(grepl("range(weights_g)", lines, fixed = TRUE)))
+  expect_true(any(grepl("read-evaluate-print loop", lines, fixed = TRUE)))
+  expect_true(any(grepl("typeof(18.2)", lines, fixed = TRUE)))
+  expect_true(any(grepl("typeof(18L)", lines, fixed = TRUE)))
+  expect_true(any(grepl('typeof("M01")', lines, fixed = TRUE)))
+  expect_true(any(grepl("typeof(TRUE)", lines, fixed = TRUE)))
+  expect_true(any(grepl("NA_integer_", lines, fixed = TRUE)))
+  expect_true(any(grepl("NA_real_", lines, fixed = TRUE)))
+  expect_true(any(grepl("NA_complex_", lines, fixed = TRUE)))
+  expect_true(any(grepl("NA_character_", lines, fixed = TRUE)))
+  expect_true(any(grepl(
+    'is.na(c("M01", NA_character_, "NA"))',
+    lines,
+    fixed = TRUE
+  )))
+  expect_true(any(grepl("glimpse(measurements)", lines, fixed = TRUE)))
+  expect_true(any(grepl("typeof(measurements)", lines, fixed = TRUE)))
+  expect_true(any(grepl("class(measurements)", lines, fixed = TRUE)))
+  expect_true(any(grepl("is.nan(special_values)", lines, fixed = TRUE)))
+  expect_true(any(grepl("is.infinite(special_values)", lines, fixed = TRUE)))
+  expect_true(any(grepl("is.finite(special_values)", lines, fixed = TRUE)))
+  expect_true(any(grepl("is.null(NULL)", lines, fixed = TRUE)))
+  expect_true(any(grepl("na.rm = TRUE", lines, fixed = TRUE)))
+  expect_true(any(grepl("measurements$weight_g", lines, fixed = TRUE)))
+  expect_true(any(grepl("mean(mixed_weights)", lines, fixed = TRUE)))
+  expect_true(any(grepl("treatment effect", lines, fixed = TRUE)))
+  expect_true(any(grepl("Restart R", lines, fixed = TRUE)))
+  expect_true(any(grepl("Render", lines, fixed = TRUE)))
+  expect_true(any(lines == "brand: _brand.yml"))
+  expect_false(any(grepl("mouse_trial", lines, fixed = TRUE)))
 })
 
 test_that("copy_template protects existing work unless overwrite is requested", {

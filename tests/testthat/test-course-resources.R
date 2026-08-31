@@ -36,16 +36,21 @@ test_that("course_resources lists each exercise template", {
   expect_identical(
     templates$resource,
     c(
+      "working-with-r",
       "tabular-comparison",
       "explicit-analytical-rules",
       "expression-filtering"
     )
   )
-  expect_identical(templates$alias, c("day-2", "day-3", "day-4"))
-  expect_identical(templates$day, 2:4)
+  expect_identical(
+    templates$alias,
+    c("lecture-2", "lecture-3", "day-3", "day-4")
+  )
+  expect_identical(templates$day, c(2L, 2L, 3L, 4L))
   expect_identical(
     templates$topic,
     c(
+      "Working with R and RStudio",
       "Tabular comparison",
       "Explicit analytical rules",
       "Expression filtering and transformation"

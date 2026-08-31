@@ -1,0 +1,67 @@
+meta:
+  name: BIOSCI 504
+
+color:
+  palette:
+    city-of-hope-blue: "#177BFB"
+    city-of-hope-blue-dark: "#0757A8"
+    ink: "#172235"
+    quiet-blue: "#EEF6FF"
+    rule-blue: "#B8D8FA"
+  foreground: ink
+  background: "#FFFFFF"
+  primary: city-of-hope-blue-dark
+
+typography:
+  base:
+    family: system-ui
+    size: 1rem
+    line-height: 1.5
+  headings:
+    family: system-ui
+    weight: 600
+    color: ink
+  monospace:
+    family: monospace
+  link:
+    color: city-of-hope-blue-dark
+    decoration: underline
+
+defaults:
+  bootstrap:
+    rules: |
+      body {
+        color: $brand-ink;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        font-weight: 600;
+      }
+
+      main.content {
+        max-width: 72ch;
+      }
+
+      h2 {
+        margin-top: 3rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid $brand-rule-blue;
+      }
+
+      .analysis-prompt {
+        margin: 1.5rem 0;
+        padding: 1rem 1.25rem;
+        border-left: 0.25rem solid $brand-city-of-hope-blue;
+        background: $brand-quiet-blue;
+      }
+
+      @media print {
+        a {
+          color: $brand-ink;
+        }
+
+        .analysis-prompt {
+          border-color: $brand-ink;
+          background: transparent;
+        }
+      }
