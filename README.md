@@ -11,23 +11,9 @@ released Windows binary and does not require Rtools.
 
 ```r
 options(repos = c(CRAN = "https://cloud.r-project.org"))
-install.packages(
-  "pak",
-  repos = sprintf(
-    "https://r-lib.github.io/p/pak/stable/%s/%s/%s",
-    .Platform$pkgType,
-    R.Version()$os,
-    R.Version()$arch
-  )
-)
+install.packages("pak")
 pak::pkg_install(
-  sprintf(
-    paste0(
-      "BIOSCI504=url::https://github.com/cohmathonc/BIOSCI504/",
-      "releases/latest/download/BIOSCI504-windows-R-%s-x86_64.zip"
-    ),
-    paste(R.version$major, sub("\\..*$", "", R.version$minor), sep = ".")
-  ),
+  "BIOSCI504=url::https://github.com/cohmathonc/BIOSCI504/releases/latest/download/BIOSCI504-windows.zip",
   upgrade = FALSE
 )
 ```
@@ -40,14 +26,7 @@ Then run:
 
 ```r
 pak::pkg_install(
-  sprintf(
-    paste0(
-      "BIOSCI504=url::https://github.com/cohmathonc/BIOSCI504/",
-      "releases/latest/download/",
-      "BIOSCI504-windows-R-%s-x86_64.zip?reinstall"
-    ),
-    paste(R.version$major, sub("\\..*$", "", R.version$minor), sep = ".")
-  ),
+  "BIOSCI504=url::https://github.com/cohmathonc/BIOSCI504/releases/latest/download/BIOSCI504-windows.zip?reinstall",
   upgrade = FALSE,
   ask = FALSE
 )

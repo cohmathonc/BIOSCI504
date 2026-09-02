@@ -58,11 +58,8 @@ jobs:
       matrix:
         include:
           - os: windows-latest
-            r: release
-            id: windows-release
-          - os: windows-latest
             r: oldrel-1
-            id: windows-oldrel
+            id: windows
           - os: macos-latest
             r: release
             id: macos-arm64
@@ -117,16 +114,8 @@ jobs:
             manual = FALSE
           )
 
-          r_minor <- paste(
-            R.version$major,
-            sub("\\..*$", "", R.version$minor),
-            sep = "."
-          )
           if (.Platform$OS.type == "windows") {
-            asset_name <- sprintf(
-              "BIOSCI504-windows-R-%s-x86_64.zip",
-              r_minor
-            )
+            asset_name <- "BIOSCI504-windows.zip"
             stopifnot(
               file.rename(binary, file.path("release", asset_name))
             )

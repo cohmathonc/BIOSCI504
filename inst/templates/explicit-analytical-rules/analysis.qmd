@@ -23,7 +23,7 @@ library(BIOSCI504)
 library(tidyverse)
 data(mouse_trial)
 
-trial <- mouse_trial |>
+mouse_trial <- mouse_trial |>
   as_tibble() |>
   mutate(weight_change_g = final_weight_g - baseline_weight_g)
 ```
@@ -43,7 +43,7 @@ Work inside your BIOSCI504 course Project.
 Each row represents one mouse. Inspect the columns needed for this exercise.
 
 ```{r}
-trial |>
+mouse_trial |>
   select(
     mouse_id,
     treatment,
@@ -66,7 +66,7 @@ biological response category.
 A change in weight requires both the baseline and final measurements.
 
 ::: {.analysis-prompt}
-Create `trial_checks` from `trial`. Add `missing_required_weight`, which is
+Create `trial_checks` from `mouse_trial`. Add `missing_required_weight`, which is
 `TRUE` when either `baseline_weight_g` or `final_weight_g` is missing.
 
 Use `is.na()` and logical OR (`|`).
@@ -220,7 +220,7 @@ the tidyverse function explicitly.
 
 ::: {.analysis-prompt}
 Complete the two comparisons inside
-`filter_treated_mice_by_weight_gain()`. Use the function once with `trial` and
+`filter_treated_mice_by_weight_gain()`. Use the function once with `mouse_trial` and
 `minimum_weight_gain_g = 3`.
 :::
 
@@ -257,7 +257,7 @@ line before you run or render this chunk.
 
 for (minimum_weight_gain_g in c(2, 3, 4)) {
   selected_mice <- filter_treated_mice_by_weight_gain(
-    trial,
+    mouse_trial,
     minimum_weight_gain_g
   )
 
