@@ -4,13 +4,33 @@
 
 Read the documentation at <https://cohmathonc.github.io/BIOSCI504/>.
 
-## Install
+## First installation
+
+Use this route if `BIOSCI504` is not already installed:
 
 ```r
 options(repos = c(CRAN = "https://cloud.r-project.org"))
 install.packages("pak")
-pak::pak("cohmathonc/BIOSCI504")
+pak::pkg_install("cohmathonc/BIOSCI504", upgrade = FALSE)
 ```
+
+## Updating an existing installation
+
+Use this route if `BIOSCI504` is already installed. Save your work and restart
+R before updating the package. Do not load `BIOSCI504` in the new session.
+Then run:
+
+```r
+pak::pkg_install(
+  "cohmathonc/BIOSCI504@main?reinstall",
+  upgrade = FALSE,
+  ask = FALSE
+)
+```
+
+Restart R again after the installation finishes. A package update changes the
+templates available to `copy_template()`; it does not replace exercises that
+you have already copied.
 
 Check the software needed for the course:
 

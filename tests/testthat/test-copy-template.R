@@ -239,7 +239,7 @@ test_that("the tabular comparison scaffold follows the agreed analysis workflow"
   expect_false(any(lines == "  warning: false"))
 })
 
-test_that("the Day 3 scaffold makes analytical rules explicit", {
+test_that("the Day 3 scaffold follows the logical-operations lesson", {
   template <- system.file(
     "templates",
     "explicit-analytical-rules",
@@ -252,36 +252,65 @@ test_that("the Day 3 scaffold makes analytical rules explicit", {
   expect_identical(
     sections,
     c(
-      "Situation",
-      "Review rule",
-      "Expected classifications",
-      "Executable specification",
-      "Constrained AI generation",
-      "Small-case test",
-      "Scale the operation",
-      "Conditional outcome",
-      "Custom function",
-      "Explicit iteration",
-      "Final verification",
-      "Result",
-      "Interpretation",
-      "Why I trust this",
-      "Optional extensions"
+      "Start",
+      "Inspect the mouse trial",
+      "Identify missing measurements",
+      "Keep complete records",
+      "Compare treatment labels",
+      "Compare weight change",
+      "Make one decision",
+      "Combine the conditions",
+      "Filter the selected mice",
+      "Give the filter a reusable name",
+      "Repeat the filter",
+      "Finish",
+      "Further reading"
     )
   )
   expect_true(any(grepl("data(mouse_trial)", lines, fixed = TRUE)))
-  expect_true(any(grepl("rule_cases <- tibble::tribble", lines, fixed = TRUE)))
+  expect_true(any(grepl("trial <- mouse_trial", lines, fixed = TRUE)))
+  expect_true(any(grepl("is.na(", lines, fixed = TRUE)))
+  expect_true(any(grepl("missing_required_weight", lines, fixed = TRUE)))
+  expect_true(any(grepl("complete_mouse_records", lines, fixed = TRUE)))
+  expect_true(any(grepl("received_treatment", lines, fixed = TRUE)))
+  expect_true(any(grepl("gained_at_least_3_g", lines, fixed = TRUE)))
+  expect_true(any(grepl("not-equal operator (`!=`)", lines, fixed = TRUE)))
   expect_true(any(grepl(
-    '"case_4", "treatment", 21.0, 20.0',
+    "if (current_weight_change_g >= 3)",
     lines,
     fixed = TRUE
   )))
-  expect_true(any(grepl("&", lines, fixed = TRUE)))
-  expect_true(any(grepl("|", lines, fixed = TRUE)))
-  expect_true(any(grepl("if_else()", lines, fixed = TRUE)))
-  expect_true(any(grepl("more than 1.0 g", lines, fixed = TRUE)))
-  expect_true(any(grepl("data(airway", lines, fixed = TRUE)))
+  expect_true(any(grepl("} else {", lines, fixed = TRUE)))
+  expect_true(any(grepl("meets_both_conditions", lines, fixed = TRUE)))
+  expect_true(any(grepl("`&`", lines, fixed = TRUE)))
+  expect_true(any(grepl("`filter()`", lines, fixed = TRUE)))
+  expect_true(any(grepl(
+    "Rows with `FALSE` or",
+    lines,
+    fixed = TRUE
+  )))
+  expect_true(any(grepl(
+    "filter_treated_mice_by_weight_gain <- function(",
+    lines,
+    fixed = TRUE
+  )))
+  expect_true(any(grepl("dplyr::filter(", lines, fixed = TRUE)))
+  expect_true(any(grepl(
+    "for (minimum_weight_gain_g in c(2, 3, 4))",
+    lines,
+    fixed = TRUE
+  )))
+  expect_true(any(grepl("21, 5, and 1", lines, fixed = TRUE)))
+  expect_true(any(grepl("Restart R", lines, fixed = TRUE)))
+  expect_true(any(grepl("analysis.html", lines, fixed = TRUE)))
   expect_true(any(lines == "#| eval: false"))
+  expect_false(any(grepl("case_when", lines, fixed = TRUE)))
+  expect_false(any(grepl("batch_coverage", lines, fixed = TRUE)))
+  expect_false(any(grepl("cage_coverage", lines, fixed = TRUE)))
+  expect_false(any(grepl("classify_weight_response", lines, fixed = TRUE)))
+  expect_false(any(grepl("purrr::map", lines, fixed = TRUE)))
+  expect_false(any(grepl("pivot_wider", lines, fixed = TRUE)))
+  expect_false(any(grepl("high_response", lines, fixed = TRUE)))
 })
 
 test_that("the Day 4 scaffold distinguishes filtering from transformation", {

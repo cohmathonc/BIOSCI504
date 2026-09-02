@@ -1,6 +1,6 @@
 ---
-title: "Explicit analytical rules"
-subtitle: "From biological intent to executable conditions"
+title: "Logical operations in the mouse trial"
+subtitle: "Comparisons, conditions, and filtering"
 brand: _brand.yml
 format:
   html:
@@ -11,6 +11,8 @@ format:
     code-fold: false
 execute:
   echo: true
+  warning: false
+  message: false
 ---
 
 ```{r}
@@ -21,163 +23,275 @@ library(BIOSCI504)
 library(tidyverse)
 data(mouse_trial)
 
-rule_cases <- tibble::tribble(
-  ~mouse_id, ~treatment, ~baseline_weight_g, ~final_weight_g,
-  "case_1", "vehicle", 24.0, 24.4,
-  "case_2", "treatment", 25.0, 23.2,
-  "case_3", "treatment", 22.5, NA_real_,
-  "case_4", "treatment", 21.0, 20.0
-)
+trial <- mouse_trial |>
+  as_tibble() |>
+  mutate(weight_change_g = final_weight_g - baseline_weight_g)
 ```
 
-## Situation
+## Start
 
-A study team needs a reproducible rule for identifying mouse records that
-require review. The same decision must behave consistently for ordinary,
-missing, and boundary values.
+Work inside your BIOSCI504 course Project.
 
-## Review rule
+1. Render this untouched document once.
+2. Complete one section at a time and run its code chunk.
+3. Keep `mouse_id` beside your logical results.
+4. Use each checkpoint before continuing.
+5. Restart R and render the completed document.
 
-::: {.analysis-prompt}
-Use this practice rule: classify a record as requiring review when final weight
-is missing. Otherwise, flag a treated mouse that lost at least 1.0 g and
-classify all other records as not flagged.
-:::
+## Inspect the mouse trial
 
-<!-- Identify the measurements, group, threshold, and missing-value behavior. -->
-
-## Expected classifications
-
-::: {.analysis-prompt}
-Classify each practice case before writing code. Pay particular attention to
-the missing value and the value exactly on the 1.0 g boundary.
-:::
-
-| Case | Expected classification | Reason |
-|---|---|---|
-| `case_1` |  |  |
-| `case_2` |  |  |
-| `case_3` |  |  |
-| `case_4` |  |  |
-
-## Executable specification
-
-::: {.analysis-prompt}
-Translate the rule into ordered, explicit comparisons joined with `&` or `|`.
-:::
-
-<!-- Check missing values before applying the numeric boundary. -->
-
-## Constrained AI generation
-
-::: {.analysis-prompt}
-Give the executable specification to AI as a constrained prompt. Preserve the
-prompt and generated code, but test the code before accepting it.
-:::
-
-<!-- Ask for one operation and name the permitted inputs, output, and checks. -->
-
-## Small-case test
-
-The four cases include an ordinary value, a clear change, a missing value, and
-a treated mouse exactly at the boundary.
+Each row represents one mouse. Inspect the columns needed for this exercise.
 
 ```{r}
-rule_cases
+trial |>
+  select(
+    mouse_id,
+    treatment,
+    baseline_weight_g,
+    final_weight_g,
+    weight_change_g
+  ) |>
+  slice_head(n = 8)
 ```
 
-```{r}
-# Apply the rule to rule_cases. Compare the result with your expected outcomes.
-```
+The question for this exercise is:
 
-## Scale the operation
+> Which treated mice gained at least 3 g?
+
+The 3 g threshold is used to practise explicit logical operations. It is not a
+biological response category.
+
+## Identify missing measurements
+
+A change in weight requires both the baseline and final measurements.
 
 ::: {.analysis-prompt}
-Use `filter()` to retain records that meet the numeric flag condition. Track
-records with missing final weight separately rather than dropping them silently.
+Create `trial_checks` from `trial`. Add `missing_required_weight`, which is
+`TRUE` when either `baseline_weight_g` or `final_weight_g` is missing.
+
+Use `is.na()` and logical OR (`|`).
 :::
 
 ```{r}
-# Inspect mouse_trial, derive any needed variables, then apply the rule.
+# Create trial_checks here.
+
+# Then inspect mouse_id, both weights, weight_change_g,
+# and missing_required_weight.
 ```
 
-### Checkpoint
+Your checkpoint is two incomplete records. Their `weight_change_g` values
+should also be `NA`.
 
 ::: {.analysis-prompt}
-Compare dimensions, flagged IDs, treatment counts, and representative rows
-before and after the operation.
+Record the two incomplete `mouse_id` values.
 :::
 
-## Conditional outcome
+**Response:**
+
+## Keep complete records
+
+Logical NOT (`!`) reverses `TRUE` and `FALSE`. Use it to retain records that
+are not missing a required weight.
 
 ::: {.analysis-prompt}
-Use `if_else()` or `case_when()` to label records as flagged, not flagged, or
-requiring review. Check that these labels reproduce the expected practice-case
-classifications.
+Create `complete_mouse_records` from `trial_checks` by filtering on
+`!missing_required_weight`. Print the number of rows.
 :::
 
-## Custom function
+```{r}
+# Create complete_mouse_records here.
+
+# Then use summarise(rows = n()) as a checkpoint.
+```
+
+Your checkpoint is 46 complete records.
+
+## Compare treatment labels
+
+The equality operator (`==`) compares each stored value with the value on its
+right. The not-equal operator (`!=`) tests whether two values differ.
 
 ::: {.analysis-prompt}
-Wrap one well-tested rule in a small function with a descriptive name.
+Create `mouse_conditions` from `complete_mouse_records`. Add
+`received_treatment`, which compares `treatment` with the stored label
+`"treatment"`.
 :::
 
-<!-- Keep the function focused. Its inputs and output should be easy to explain. -->
+```{r}
+# Create mouse_conditions here.
 
-## Explicit iteration
+# Then count treatment and received_treatment.
+```
+
+Check that the logical values agree with the treatment labels before
+continuing.
+
+## Compare weight change
+
+“At least 3 g” means greater than or equal to 3 (`>= 3`). A gain of exactly
+3 g is included. The related operators are `>`, `<`, and `<=`.
 
 ::: {.analysis-prompt}
-Apply the function across a short, visible set of thresholds using
-`purrr::map()`. Predict what one threshold change should do before iterating;
-the missing-value classification should remain unchanged.
+Add `gained_at_least_3_g` to `mouse_conditions`. Compare `weight_change_g`
+with 3, then count the resulting logical values.
 :::
 
-<!-- First write down what one iteration receives and returns. -->
+```{r}
+# Add gained_at_least_3_g here.
 
-## Final verification
+# Then count gained_at_least_3_g.
+```
+
+Your checkpoint is five `TRUE` values.
+
+## Make one decision
+
+`if` uses one logical value to choose which branch runs.
 
 ::: {.analysis-prompt}
-Show that the small-case expectations, scaled classifications, conditional
-labels, function output, and iterated results agree.
+Complete the supplied `if`/`else` example. With
+`current_weight_change_g <- 3`, it should return `"include"`. Change the value
+to 2.9 and confirm that it returns `"exclude"`.
 :::
 
-## Result
+```{r}
+current_weight_change_g <- 3
+
+if (current_weight_change_g >= 3) {
+  # Return "include".
+} else {
+  # Return "exclude".
+}
+```
+
+## Combine the conditions
+
+Logical AND (`&`) returns `TRUE` only when both component conditions are
+`TRUE`.
 
 ::: {.analysis-prompt}
-Report what the rule retained or classified without interpreting it yet.
+Add `meets_both_conditions` to `mouse_conditions` by combining
+`received_treatment` and `gained_at_least_3_g` with `&`.
+
+Keep the two component conditions beside the combined result when you inspect
+the table.
 :::
 
-## Interpretation
+```{r}
+# Add meets_both_conditions here.
+
+# Then inspect mouse_id, treatment, weight_change_g,
+# received_treatment, gained_at_least_3_g, and meets_both_conditions.
+```
+
+Your checkpoint is five records for which `meets_both_conditions` is `TRUE`.
+
+## Filter the selected mice
+
+`filter()` retains rows where its condition is `TRUE`. Rows with `FALSE` or
+`NA` are not retained.
 
 ::: {.analysis-prompt}
-Explain the biological meaning of the result and the consequence of the rule.
+Create `treated_mice_meeting_gain_threshold` by filtering
+`mouse_conditions` on `meets_both_conditions`. Retain `mouse_id`, `treatment`,
+and `weight_change_g`.
 :::
 
-## Why I trust this
+```{r}
+# Create and print treated_mice_meeting_gain_threshold here.
+
+# Then check rows and distinct mouse_id values with summarise().
+```
+
+Your checkpoint is five rows and five distinct mouse IDs.
 
 ::: {.analysis-prompt}
-Point to the small-case test and scaled checkpoints that could reveal an error.
+Record the five selected `mouse_id` values. Explain how the row count relates
+to the preceding logical count.
 :::
 
-## Optional extensions
+**Response:**
 
-### Change the boundary
+## Give the filter a reusable name
 
-Suppose the policy changes from “at least 1.0 g” to “more than 1.0 g.” Predict
-which cases change, update the rule, and rerun the same checks.
+The familiar filter can be placed inside a function. The table and minimum
+gain become the function inputs. Inside the function, `dplyr::filter()` names
+the tidyverse function explicitly.
 
-### Transfer the workflow to airway
+::: {.analysis-prompt}
+Complete the two comparisons inside
+`filter_treated_mice_by_weight_gain()`. Use the function once with `trial` and
+`minimum_weight_gain_g = 3`.
+:::
 
-`airway` is the course anchor for high-dimensional data. Once its instructor
-dependencies are installed, extract its sample metadata and apply the same
-inspect → specify → test → scale workflow.
+```{r}
+filter_treated_mice_by_weight_gain <- function(
+  mouse_data,
+  minimum_weight_gain_g
+) {
+  mouse_data |>
+    dplyr::filter(
+      # Compare treatment with "treatment",
+      # compare weight_change_g with minimum_weight_gain_g
+    )
+}
+
+# Call the function and inspect mouse_id, treatment, and weight_change_g.
+```
+
+The function call should reproduce the same five mouse IDs.
+
+## Repeat the filter
+
+This supplied loop calls the same function at minimum gains of 2, 3, and 4 g.
+Run it after the function returns the expected five-row result. Remove the
+
+```text
+#| eval: false
+```
+
+line before you run or render this chunk.
 
 ```{r}
 #| eval: false
 
-data(airway, package = "airway")
-airway_samples <- SummarizedExperiment::colData(airway) |>
-  as.data.frame() |>
-  tibble::rownames_to_column("sample_id") |>
-  tibble::as_tibble()
+for (minimum_weight_gain_g in c(2, 3, 4)) {
+  selected_mice <- filter_treated_mice_by_weight_gain(
+    trial,
+    minimum_weight_gain_g
+  )
+
+  print(nrow(selected_mice))
+}
 ```
+
+The three row counts should be 21, 5, and 1, in that order.
+
+::: {.analysis-prompt}
+Why does the number of selected mice decrease as the minimum gain increases?
+:::
+
+**Response:**
+
+## Finish
+
+1. Save `analysis.qmd`.
+2. Restart R: **Session > Restart R**.
+3. Render the document.
+4. Open `analysis.html` and confirm that it contains:
+   - the two incomplete mouse IDs;
+   - 46 complete records;
+   - the five selected mouse IDs; and
+   - threshold counts of 21, 5, and 1.
+
+A successful render after restarting confirms that the document creates the
+objects it uses.
+
+## Further reading
+
+- [R comparisons](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Comparison.html)
+- [R logical operators](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Logic.html)
+- [`is.na()` and missing values](https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html)
+- [`dplyr::filter()`](https://dplyr.tidyverse.org/reference/filter.html)
+- [Software Carpentry: Functions](https://swcarpentry.github.io/r-novice-gapminder/instructor/10-functions.html)
+- [Software Carpentry: Repeating operations](https://swcarpentry.github.io/r-novice-gapminder/instructor/07-control-flow.html#repeating-operations)

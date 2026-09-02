@@ -50,7 +50,13 @@
 
 - [x] Add a Day 2 Quarto template under `inst/templates/`.
 - [x] Add a Day 3 template for explicit analytical rules.
-- [x] Add a Day 4 template for expression filtering and transformation.
+- [ ] Add a Day 4 template for visualization as representation when the Day 4
+  faculty/TA team supplies its requirements.
+- [ ] Add a Day 5 template for structured objects and context when the Day 5
+  faculty/TA team supplies its requirements.
+- [ ] Reconcile the provisional `expression-filtering` template and `day-4`
+  alias. They predate the confirmed schedule and must not be advertised as the
+  Day 4 exercise.
 - [x] Include sections for:
   - biological question
   - prediction
@@ -72,7 +78,10 @@
 
 ## 5. Setup checks and dependencies
 
-- [x] Add the agreed Days 1--4 dependency stack and sensible minimum versions to `DESCRIPTION`.
+- [x] Add the dependencies required for the completed Day 2 and Day 3
+  infrastructure, with sensible minimum versions, to `DESCRIPTION`.
+- [ ] Add Day 4 and later dependencies only after the responsible instructors
+  supply them.
 - [x] Keep `DESCRIPTION` as the only course dependency manifest.
 - [x] Implement a concise `check_setup()` that checks:
   - R and required package versions

@@ -14,15 +14,31 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 `BIOSCI504` installs the R packages used in Days 1--4 and provides the course
 data, projects, and exercise templates.
 
-## Install
+## First installation
 
-Install the package once from GitHub:
+Use this route if `BIOSCI504` is not already installed:
 
 ```{r install, eval = FALSE}
 options(repos = c(CRAN = "https://cloud.r-project.org"))
 install.packages("pak")
-pak::pak("cohmathonc/BIOSCI504")
+pak::pkg_install("cohmathonc/BIOSCI504", upgrade = FALSE)
 ```
+
+## Updating an existing installation
+
+Use this route if `BIOSCI504` is already installed. Save your work and restart
+R before updating the package. Do not load `BIOSCI504` in the new session.
+Then run:
+
+```{r update, eval = FALSE}
+pak::pkg_install(
+  "cohmathonc/BIOSCI504@main?reinstall",
+  upgrade = FALSE,
+  ask = FALSE
+)
+```
+
+Restart R again after the installation finishes.
 
 ## Check your setup
 
@@ -56,7 +72,8 @@ BIOSCI504::copy_template("tabular-comparison")
 ```
 
 The template is copied to `exercises/tabular-comparison`. Existing work is not
-replaced unless you explicitly request it.
+replaced unless you explicitly request it. Updating the package does not
+change an exercise that has already been copied.
 
 ## Work with course data
 
