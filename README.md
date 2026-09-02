@@ -4,17 +4,35 @@
 
 Read the documentation at <https://cohmathonc.github.io/BIOSCI504/>.
 
-## First installation
+## First installation on Windows
 
-Use this route if `BIOSCI504` is not already installed:
+Use this route if `BIOSCI504` is not already installed. It installs the
+released Windows binary and does not require Rtools.
 
 ```r
 options(repos = c(CRAN = "https://cloud.r-project.org"))
-install.packages("pak")
-pak::pkg_install("cohmathonc/BIOSCI504", upgrade = FALSE)
+install.packages(
+  "pak",
+  repos = sprintf(
+    "https://r-lib.github.io/p/pak/stable/%s/%s/%s",
+    .Platform$pkgType,
+    R.Version()$os,
+    R.Version()$arch
+  )
+)
+pak::pkg_install(
+  sprintf(
+    paste0(
+      "BIOSCI504=url::https://github.com/cohmathonc/BIOSCI504/",
+      "releases/latest/download/BIOSCI504-windows-R-%s-x86_64.zip"
+    ),
+    paste(R.version$major, sub("\\..*$", "", R.version$minor), sep = ".")
+  ),
+  upgrade = FALSE
+)
 ```
 
-## Updating an existing installation
+## Updating an existing installation on Windows
 
 Use this route if `BIOSCI504` is already installed. Save your work and restart
 R before updating the package. Do not load `BIOSCI504` in the new session.
@@ -22,7 +40,14 @@ Then run:
 
 ```r
 pak::pkg_install(
-  "cohmathonc/BIOSCI504@main?reinstall",
+  sprintf(
+    paste0(
+      "BIOSCI504=url::https://github.com/cohmathonc/BIOSCI504/",
+      "releases/latest/download/",
+      "BIOSCI504-windows-R-%s-x86_64.zip?reinstall"
+    ),
+    paste(R.version$major, sub("\\..*$", "", R.version$minor), sep = ".")
+  ),
   upgrade = FALSE,
   ask = FALSE
 )

@@ -1,6 +1,6 @@
 Package: BIOSCI504
 Title: Course Tools for BIOSCI 504
-Version: 0.0.0.9001
+Version: 0.1.0
 Authors@R:
     person("Denis", "O'Meally", , "denis@omeally.com", role = c("aut", "cre"))
 Description: Provides datasets and setup tools used in BIOSCI 504. Helps

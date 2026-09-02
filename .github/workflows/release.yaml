@@ -1,0 +1,251 @@
+on:
+  push:
+    tags:
+      - "v*"
+
+name: release
+
+permissions: read-all
+
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    name: source package
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: release
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::pkgbuild
+          needs: check
+
+      - name: Check tag and package version
+        shell: Rscript {0}
+        run: |
+          tag_version <- sub("^v", "", Sys.getenv("GITHUB_REF_NAME"))
+          package_version <- read.dcf("DESCRIPTION")[1, "Version"]
+          stopifnot(identical(tag_version, package_version))
+
+      - name: Build source package
+        shell: Rscript {0}
+        run: |
+          dir.create("release")
+          pkgbuild::build(
+            ".",
+            dest_path = "release",
+            binary = FALSE,
+            vignettes = TRUE,
+            manual = FALSE
+          )
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: release-source
+          path: release/*
+          if-no-files-found: error
+
+  binary:
+    needs: source
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            r: release
+            id: windows-release
+          - os: windows-latest
+            r: oldrel-1
+            id: windows-oldrel
+          - os: macos-15
+            r: release
+            id: macos-arm64
+          - os: macos-15-intel
+            r: release
+            id: macos-intel
+
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.id }} binary
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.r }}
+          rtools-version: none
+          windows-path-include-rtools: false
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::pkgbuild
+          needs: check
+
+      - name: Check tag and package version
+        shell: Rscript {0}
+        run: |
+          tag_version <- sub("^v", "", Sys.getenv("GITHUB_REF_NAME"))
+          package_version <- read.dcf("DESCRIPTION")[1, "Version"]
+          stopifnot(identical(tag_version, package_version))
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: release-source
+          path: source
+
+      - name: Build binary package
+        shell: Rscript {0}
+        run: |
+          dir.create("release")
+          source_package <- list.files(
+            "source",
+            pattern = "\\.tar\\.gz$",
+            full.names = TRUE
+          )
+          stopifnot(length(source_package) == 1L)
+
+          binary <- pkgbuild::build(
+            source_package,
+            dest_path = "release",
+            binary = TRUE,
+            vignettes = FALSE,
+            manual = FALSE
+          )
+
+          r_minor <- paste(
+            R.version$major,
+            sub("\\..*$", "", R.version$minor),
+            sep = "."
+          )
+          asset_name <- if (.Platform$OS.type == "windows") {
+            sprintf("BIOSCI504-windows-R-%s-x86_64.zip", r_minor)
+          } else {
+            architecture <- if (
+              grepl("aarch64|arm64", R.version$arch, ignore.case = TRUE)
+            ) {
+              "aarch64"
+            } else {
+              "x86_64"
+            }
+            sprintf(
+              "BIOSCI504-macos-R-%s-%s.tgz",
+              r_minor,
+              architecture
+            )
+          }
+          stopifnot(file.rename(binary, file.path("release", asset_name)))
+
+      - name: Serve Windows binary locally
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Start-Process python -ArgumentList @(
+            "-m",
+            "http.server",
+            "8765",
+            "--directory",
+            "release"
+          )
+          curl.exe --fail --retry 10 --retry-connrefused --retry-delay 1 `
+            http://127.0.0.1:8765/ --output NUL
+
+      - name: Install and inspect binary package
+        shell: Rscript {0}
+        run: |
+          extension <- if (.Platform$OS.type == "windows") "zip" else "tgz"
+          binary <- list.files(
+            "release",
+            pattern = paste0("\\.", extension, "$"),
+            full.names = TRUE
+          )
+          stopifnot(length(binary) == 1L)
+
+          student_library <- file.path(tempdir(), "student-library")
+          dir.create(student_library)
+
+          if (.Platform$OS.type == "windows") {
+            .libPaths(c(student_library, .libPaths()))
+            install.packages(
+              "pak",
+              lib = student_library,
+              repos = sprintf(
+                "https://r-lib.github.io/p/pak/stable/%s/%s/%s",
+                .Platform$pkgType,
+                R.Version()$os,
+                R.Version()$arch
+              )
+            )
+            binary_url <- paste0(
+              "http://127.0.0.1:8765/",
+              basename(binary)
+            )
+            pak::pkg_install(
+              sprintf("BIOSCI504=url::%s?reinstall", binary_url),
+              lib = student_library,
+              upgrade = FALSE,
+              ask = FALSE
+            )
+          } else {
+            install.packages(
+              binary,
+              lib = student_library,
+              repos = NULL,
+              type = .Platform$pkgType
+            )
+          }
+
+          stopifnot(
+            identical(
+              as.character(
+                packageVersion("BIOSCI504", lib.loc = student_library)
+              ),
+              read.dcf("DESCRIPTION")[1, "Version"]
+            )
+          )
+
+          loadNamespace("BIOSCI504", lib.loc = student_library)
+          resources <- BIOSCI504::course_resources()
+          stopifnot("explicit-analytical-rules" %in% resources$resource)
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: release-${{ matrix.id }}
+          path: release/*
+          if-no-files-found: error
+
+  publish:
+    needs:
+      - source
+      - binary
+    runs-on: ubuntu-latest
+    name: GitHub release
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: release-*
+          path: release
+          merge-multiple: true
+
+      - name: Publish release artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" release/* --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" release/* \
+              --verify-tag \
+              --generate-notes \
+              --title "$GITHUB_REF_NAME"
+          fi
