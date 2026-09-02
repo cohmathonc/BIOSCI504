@@ -273,6 +273,84 @@ Why does the number of selected mice decrease as the minimum gain increases?
 
 **Response:**
 
+## Choose a continuation
+
+Once the core checkpoints work, choose one of these continuations. **Consolidate**
+provides another guided pass through the logical operations. **Extend** asks you
+to adapt the function and examine the experimental design.
+
+### Consolidate: change the question
+
+> Which complete control mice gained at least 2 g?
+
+This uses the same sequence with a different treatment label and threshold.
+Complete the two comparisons, remove the `#| eval: false` line, and run the
+chunk.
+
+```{r}
+#| eval: false
+
+control_mice_gaining_at_least_2_g <- complete_mouse_records |>
+  mutate(
+    is_control = treatment == _____,
+    gained_at_least_2_g = weight_change_g _____ 2
+  ) |>
+  filter(is_control & gained_at_least_2_g) |>
+  select(mouse_id, treatment, weight_change_g)
+
+control_mice_gaining_at_least_2_g
+```
+
+Your checkpoint is one row: `M048`. Explain why this mouse did not meet the
+earlier 3 g condition.
+
+**Response:**
+
+### Extend: generalise and check
+
+Create `filter_mice_by_treatment_and_gain()` by adapting
+`filter_treated_mice_by_weight_gain()`. Make the treatment label an additional
+input. The new function has the arguments `mouse_data`, `treatment_label`, and
+`minimum_weight_gain_g`.
+
+Use these calls as checks:
+
+```{r}
+#| eval: false
+
+# Define filter_mice_by_treatment_and_gain() here.
+
+filter_mice_by_treatment_and_gain(
+  mouse_trial,
+  treatment_label = "treatment",
+  minimum_weight_gain_g = 3
+)
+
+filter_mice_by_treatment_and_gain(
+  mouse_trial,
+  treatment_label = "control",
+  minimum_weight_gain_g = 2
+)
+```
+
+The calls should return five rows and one row, respectively.
+
+Finally, inspect whether the five mice from the original question all came
+from one batch or cage. Remove the `#| eval: false` line after completing the
+core exercise:
+
+```{r}
+#| echo: true
+#| eval: false
+mouse_conditions |>
+  filter(meets_both_conditions) |>
+  count(batch, cage)
+```
+
+They span three batches and three cages. If all selected mice came from one
+batch or cage, that pattern would need checking before biological
+interpretation.
+
 ## Finish
 
 1. Save `analysis.qmd`.
@@ -283,6 +361,8 @@ Why does the number of selected mice decrease as the minimum gain increases?
    - 46 complete records;
    - the five selected mouse IDs; and
    - threshold counts of 21, 5, and 1.
+
+If you completed a continuation, confirm that its checkpoint also appears.
 
 A successful render after restarting confirms that the document creates the
 objects it uses.

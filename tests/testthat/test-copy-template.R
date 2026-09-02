@@ -263,6 +263,7 @@ test_that("the Day 3 scaffold follows the logical-operations lesson", {
       "Filter the selected mice",
       "Give the filter a reusable name",
       "Repeat the filter",
+      "Choose a continuation",
       "Finish",
       "Further reading"
     )
@@ -301,6 +302,17 @@ test_that("the Day 3 scaffold follows the logical-operations lesson", {
     fixed = TRUE
   )))
   expect_true(any(grepl("21, 5, and 1", lines, fixed = TRUE)))
+  expect_true(any(grepl(
+    "control_mice_gaining_at_least_2_g",
+    lines,
+    fixed = TRUE
+  )))
+  expect_true(any(grepl(
+    "filter_mice_by_treatment_and_gain(",
+    lines,
+    fixed = TRUE
+  )))
+  expect_true(any(grepl("count(batch, cage)", lines, fixed = TRUE)))
   expect_true(any(grepl("Restart R", lines, fixed = TRUE)))
   expect_true(any(grepl("analysis.html", lines, fixed = TRUE)))
   expect_true(any(lines == "#| eval: false"))
