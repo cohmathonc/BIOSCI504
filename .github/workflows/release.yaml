@@ -63,12 +63,9 @@ jobs:
           - os: windows-latest
             r: oldrel-1
             id: windows-oldrel
-          - os: macos-15
+          - os: macos-latest
             r: release
             id: macos-arm64
-          - os: macos-15-intel
-            r: release
-            id: macos-intel
 
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.id }} binary
@@ -125,23 +122,15 @@ jobs:
             sub("\\..*$", "", R.version$minor),
             sep = "."
           )
-          asset_name <- if (.Platform$OS.type == "windows") {
-            sprintf("BIOSCI504-windows-R-%s-x86_64.zip", r_minor)
-          } else {
-            architecture <- if (
-              grepl("aarch64|arm64", R.version$arch, ignore.case = TRUE)
-            ) {
-              "aarch64"
-            } else {
-              "x86_64"
-            }
-            sprintf(
-              "BIOSCI504-macos-R-%s-%s.tgz",
-              r_minor,
-              architecture
+          if (.Platform$OS.type == "windows") {
+            asset_name <- sprintf(
+              "BIOSCI504-windows-R-%s-x86_64.zip",
+              r_minor
+            )
+            stopifnot(
+              file.rename(binary, file.path("release", asset_name))
             )
           }
-          stopifnot(file.rename(binary, file.path("release", asset_name)))
 
       - name: Serve Windows binary locally
         if: runner.os == 'Windows'
@@ -207,7 +196,7 @@ jobs:
               as.character(
                 packageVersion("BIOSCI504", lib.loc = student_library)
               ),
-              read.dcf("DESCRIPTION")[1, "Version"]
+              unname(read.dcf("DESCRIPTION")[1, "Version"])
             )
           )
 
