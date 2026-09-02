@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">BIOSCI504</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,19 +62,34 @@
 <p><code>BIOSCI504</code> installs the R packages used in Days 1–4 and
 provides the course data, projects, and exercise templates.</p>
 <div class="section level2">
-<h2 id="install">Install<a class="anchor" aria-label="anchor" href="#install"></a>
+<h2 id="first-installation">First installation<a class="anchor" aria-label="anchor" href="#first-installation"></a>
 </h2>
-<p>Install the package once from GitHub:</p>
+<p>Use this route if <code>BIOSCI504</code> is not already
+installed:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>CRAN <span class="op">=</span> <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span></span>
-<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"cohmathonc/BIOSCI504"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"cohmathonc/BIOSCI504"</span>, upgrade <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="updating-an-existing-installation">Updating an existing installation<a class="anchor" aria-label="anchor" href="#updating-an-existing-installation"></a>
+</h2>
+<p>Use this route if <code>BIOSCI504</code> is already installed. Save
+your work and restart R before updating the package. Do not load
+<code>BIOSCI504</code> in the new session. Then run:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span></span>
+<span>  <span class="st">"cohmathonc/BIOSCI504@main?reinstall"</span>,</span>
+<span>  upgrade <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  ask <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>Restart R again after the installation finishes.</p>
 </div>
 <div class="section level2">
 <h2 id="check-your-setup">Check your setup<a class="anchor" aria-label="anchor" href="#check-your-setup"></a>
 </h2>
 <p>Run the setup check before the first class:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">BIOSCI504</span><span class="fu">::</span><span class="fu"><a href="../reference/check_setup.html">check_setup</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The check reports every problem it finds and suggests a fix. RStudio
 may be reported as a warning when the check is run from a terminal.</p>
@@ -83,7 +98,7 @@ may be reported as a warning when the check is run from a terminal.</p>
 <h2 id="create-a-course-project">Create a course project<a class="anchor" aria-label="anchor" href="#create-a-course-project"></a>
 </h2>
 <p>Choose a folder that is easy to find:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">BIOSCI504</span><span class="fu">::</span><span class="fu"><a href="../reference/create_course_project.html">create_course_project</a></span><span class="op">(</span><span class="st">"~/BIOSCI504"</span><span class="op">)</span></span></code></pre></div>
 <p>Open <code>~/BIOSCI504/BIOSCI504.Rproj</code> in RStudio before
 continuing. This keeps course files together, applies the course
@@ -93,17 +108,19 @@ repository settings, and makes relative paths predictable.</p>
 <h2 id="copy-an-exercise">Copy an exercise<a class="anchor" aria-label="anchor" href="#copy-an-exercise"></a>
 </h2>
 <p>From the course project, copy the Day 2 template:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">BIOSCI504</span><span class="fu">::</span><span class="fu"><a href="../reference/copy_template.html">copy_template</a></span><span class="op">(</span><span class="st">"tabular-comparison"</span><span class="op">)</span></span></code></pre></div>
 <p>The template is copied to <code>exercises/tabular-comparison</code>.
-Existing work is not replaced unless you explicitly request it.</p>
+Existing work is not replaced unless you explicitly request it. Updating
+the package does not change an exercise that has already been
+copied.</p>
 </div>
 <div class="section level2">
 <h2 id="work-with-course-data">Work with course data<a class="anchor" aria-label="anchor" href="#work-with-course-data"></a>
 </h2>
 <p>Load the package and tidyverse, then inspect the bundled mouse
 trial:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://cohmathonc.github.io/BIOSCI504/">BIOSCI504</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span></span>
@@ -119,7 +136,7 @@ trial:</p>
 <span><span class="co">#&gt; $ cage              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "C01"<span style="color: #949494;">, </span>"C01"<span style="color: #949494;">, </span>"C01"<span style="color: #949494;">, </span>"C01"<span style="color: #949494;">, </span>"C01"<span style="color: #949494;">, </span>"C01"<span style="color: #949494;">, </span>"C01"<span style="color: #949494;">, </span>"C0…</span></span>
 <span><span class="co">#&gt; $ batch             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "B02"<span style="color: #949494;">, </span>"B03"<span style="color: #949494;">, </span>"B01"<span style="color: #949494;">, </span>"B02"<span style="color: #949494;">, </span>"B01"<span style="color: #949494;">, </span>"B03"<span style="color: #949494;">, </span>"B03"<span style="color: #949494;">, </span>"B0…</span></span></code></pre></div>
 <p>A quick plot is often the best next check:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span></span>
 <span>  <span class="va">mouse_trial</span>,</span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
