@@ -30,7 +30,7 @@ jobs:
         shell: Rscript {0}
         run: |
           tag_version <- sub("^v", "", Sys.getenv("GITHUB_REF_NAME"))
-          package_version <- read.dcf("DESCRIPTION")[1, "Version"]
+          package_version <- unname(read.dcf("DESCRIPTION")[1, "Version"])
           stopifnot(identical(tag_version, package_version))
 
       - name: Build source package
@@ -93,7 +93,7 @@ jobs:
         shell: Rscript {0}
         run: |
           tag_version <- sub("^v", "", Sys.getenv("GITHUB_REF_NAME"))
-          package_version <- read.dcf("DESCRIPTION")[1, "Version"]
+          package_version <- unname(read.dcf("DESCRIPTION")[1, "Version"])
           stopifnot(identical(tag_version, package_version))
 
       - uses: actions/download-artifact@v8
