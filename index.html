@@ -57,23 +57,9 @@
 <p>Use this route if <code>BIOSCI504</code> is not already installed. It installs the released Windows binary and does not require Rtools.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>CRAN <span class="op">=</span> <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span></span>
-<span>  <span class="st">"pak"</span>,</span>
-<span>  repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span></span>
-<span>    <span class="st">"https://r-lib.github.io/p/pak/stable/%s/%s/%s"</span>,</span>
-<span>    <span class="va">.Platform</span><span class="op">$</span><span class="va">pkgType</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/Version.html" class="external-link">R.Version</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">os</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/Version.html" class="external-link">R.Version</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">arch</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
-<span>      <span class="st">"BIOSCI504=url::https://github.com/cohmathonc/BIOSCI504/"</span>,</span>
-<span>      <span class="st">"releases/latest/download/BIOSCI504-windows-R-%s-x86_64.zip"</span></span>
-<span>    <span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">R.version</span><span class="op">$</span><span class="va">major</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">sub</a></span><span class="op">(</span><span class="st">"\\..*$"</span>, <span class="st">""</span>, <span class="va">R.version</span><span class="op">$</span><span class="va">minor</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span>
-<span>  <span class="op">)</span>,</span>
+<span>  <span class="st">"BIOSCI504=url::https://github.com/cohmathonc/BIOSCI504/releases/latest/download/BIOSCI504-windows.zip"</span>,</span>
 <span>  upgrade <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -83,14 +69,7 @@
 <p>Use this route if <code>BIOSCI504</code> is already installed. Save your work and restart R before updating the package. Do not load <code>BIOSCI504</code> in the new session. Then run:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
-<span>      <span class="st">"BIOSCI504=url::https://github.com/cohmathonc/BIOSCI504/"</span>,</span>
-<span>      <span class="st">"releases/latest/download/"</span>,</span>
-<span>      <span class="st">"BIOSCI504-windows-R-%s-x86_64.zip?reinstall"</span></span>
-<span>    <span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">R.version</span><span class="op">$</span><span class="va">major</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">sub</a></span><span class="op">(</span><span class="st">"\\..*$"</span>, <span class="st">""</span>, <span class="va">R.version</span><span class="op">$</span><span class="va">minor</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span>
-<span>  <span class="op">)</span>,</span>
+<span>  <span class="st">"BIOSCI504=url::https://github.com/cohmathonc/BIOSCI504/releases/latest/download/BIOSCI504-windows.zip?reinstall"</span>,</span>
 <span>  upgrade <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  ask <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
